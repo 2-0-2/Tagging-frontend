@@ -46,5 +46,5 @@ export const Typing_section_one = styled.div`
   `
 
 export const Typing_current_score= styled.div`
-
+  
   `;
