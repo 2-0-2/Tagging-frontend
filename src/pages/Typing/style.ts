@@ -1,4 +1,4 @@
 import styled from "styled-components";
 
-export const Home_layout = styled.div `
+export const Typing_layout = styled.div `
 `
