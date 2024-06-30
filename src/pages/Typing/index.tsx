@@ -66,7 +66,8 @@ const TypingPage = () => {
           <s.Typing_section_two>
             <s.Typing_display_sentence>
               <s.Typing_display_icon src={rightarrow} />
-              <p>안녕하세요 저는 강민지입니다 쉐쉐이크</p>
+              <p>{sentence}</p>
+              
             </s.Typing_display_sentence>
             <s.Typing_enter_sentence>
               <s.Typing_enter_icon src={enterarrow}/>

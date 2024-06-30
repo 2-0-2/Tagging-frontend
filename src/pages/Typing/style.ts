@@ -140,6 +140,7 @@ export const Typing_input = styled.input`
   font-size: 24px;
   border-style: none;
   font-family: "GmarketSansMedium";
+  outline: none;
 `
 
 export const Typing_enter_icon = styled.img`
