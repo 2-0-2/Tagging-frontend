@@ -146,6 +146,16 @@ export const Typing_input = styled.input`
 export const Typing_enter_icon = styled.img`
       width: 44px;
       height: auto;
-      color: #666666;
+    `;
+
+export const Typing_section_three = styled.div`
+        margin: 0 auto;
+  width: 90%;
+  height: 40%;
+  color: #8C8C8C;
+  font-size: 16px;
+  & > p {
+
+  }
     `;
 

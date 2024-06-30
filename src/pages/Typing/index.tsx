@@ -8,12 +8,17 @@ import { fetchSentence } from "../../apis/sentenceAPI";
 
 const TypingPage = () => {
   const [sentence, setSentence] = useState("");
+  const [nextSentence, setNextSentence] = useState("");
 
   useEffect(() => {
     const getSentence = () => {
       fetchSentence()
         .then((data) => {
           setSentence(data.sentence);
+        })
+        fetchSentence()
+        .then((data) => {
+          setNextSentence(data.sentence);
         })
         .catch((error) => {
           console.error("문장 가져오기 실패:", error);
@@ -74,6 +79,9 @@ const TypingPage = () => {
               <s.Typing_input/>
             </s.Typing_enter_sentence>
           </s.Typing_section_two>
+          <s.Typing_section_three>
+            <p>NEXT : {nextSentence}</p>
+          </s.Typing_section_three>
         </s.Typing_box>
       </s.Typing_layout>
     </s.Typing_container>
