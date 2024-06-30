@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as s from "./style";
 import logo from "../../assets/로고.svg";
+import returnicon from "../../assets/return.svg"
 import { fetchSentence } from "../../apis/sentenceAPI";
 
 const TypingPage = () => {
@@ -23,7 +24,7 @@ const TypingPage = () => {
   return (
     <s.Typing_container>
       <s.Typing_layout>
-        <s.LogoImage src={logo} style={{ width: "150px", height: "auto" }} />
+        <s.LogoImage src={logo} />
         <s.Typing_box>
           <s.Typing_section_one>
             <s.Typing_stats_box>
@@ -58,7 +59,13 @@ const TypingPage = () => {
               </s.Typing_stats_bar>
               <s.Typing_stats_bar></s.Typing_stats_bar>
             </s.Typing_stats_box>
+            <s.Typing_engilsh_mode>
+              <p>Engilsh</p>
+              <s.Typing_return src={returnicon} />
+            </s.Typing_engilsh_mode>
           </s.Typing_section_one>
+          <s.Typing_display_sentence>
+            </s.Typing_display_sentence>
         </s.Typing_box>
       </s.Typing_layout>
     </s.Typing_container>
