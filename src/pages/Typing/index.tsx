@@ -76,7 +76,7 @@ const TypingPage = () => {
             </s.Typing_display_sentence>
             <s.Typing_enter_sentence>
               <s.Typing_enter_icon src={enterarrow}/>
-              <s.Typing_input/>
+              <s.Typing_input placeholder="위 문장을 타이핑하세요!"/>
             </s.Typing_enter_sentence>
           </s.Typing_section_two>
           <s.Typing_section_three>

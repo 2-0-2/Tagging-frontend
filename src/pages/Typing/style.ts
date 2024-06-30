@@ -141,7 +141,14 @@ export const Typing_input = styled.input`
   border-style: none;
   font-family: "GmarketSansMedium";
   outline: none;
-`
+  caret-color: #7280fb;
+  ::placeholder {
+    color: #d8d8d8;
+  }
+  &:focus::placeholder {
+    color: #d8d8d8;
+  }
+`;
 
 export const Typing_enter_icon = styled.img`
       width: 44px;
