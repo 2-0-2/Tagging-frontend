@@ -24,14 +24,34 @@ const TypingPage = () => {
     <s.Typing_container>
       <s.Typing_layout>
         <s.LogoImage src={logo} style={{ width: "150px", height: "auto" }} />
-              <h1>{sentence}</h1>
         <s.Typing_box>
           <s.Typing_section_one>
             <s.Typing_stats_box>
+              <div>
+              <p>현재 타수 : </p>
+              <span>267</span>
+              </div>
+              <s.Typing_stats_bar>
+
+              </s.Typing_stats_bar>
             </s.Typing_stats_box>
             <s.Typing_stats_box>
+              <div>
+              <p>최고 타수 : </p>
+              <span>600</span>
+              </div>
+              <s.Typing_stats_bar>
+
+              </s.Typing_stats_bar>
             </s.Typing_stats_box>
             <s.Typing_stats_box>
+              <div>
+              <p>정확도 : </p>
+              <span>99%</span>
+              </div>
+              <s.Typing_stats_bar>
+                
+              </s.Typing_stats_bar>
             </s.Typing_stats_box>
           </s.Typing_section_one>
         </s.Typing_box>
