@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as s from "./style";
 import logo from "../../assets/로고.svg";
-import returnicon from "../../assets/return.svg"
+import returnicon from "../../assets/return.svg";
+import rightarrow from "../../assets/rightarrow.svg";
+import enterarrow from "../../assets/enter.svg";
 import { fetchSentence } from "../../apis/sentenceAPI";
 
 const TypingPage = () => {
@@ -33,8 +35,7 @@ const TypingPage = () => {
                 <s.ColoredSpan color="#7280FB">267</s.ColoredSpan>
               </div>
               <s.Typing_stats_bar>
-                <s.Typing_stats_display>
-                </s.Typing_stats_display>
+                <s.Typing_stats_display></s.Typing_stats_display>
               </s.Typing_stats_bar>
             </s.Typing_stats_box>
             <s.Typing_stats_box>
@@ -43,8 +44,7 @@ const TypingPage = () => {
                 <span>600</span>
               </div>
               <s.Typing_stats_bar>
-                <s.Typing_stats_display>
-                </s.Typing_stats_display>
+                <s.Typing_stats_display></s.Typing_stats_display>
               </s.Typing_stats_bar>
               <s.Typing_stats_bar></s.Typing_stats_bar>
             </s.Typing_stats_box>
@@ -54,8 +54,7 @@ const TypingPage = () => {
                 <span>100%</span>
               </div>
               <s.Typing_stats_bar>
-                <s.Typing_stats_display>
-                </s.Typing_stats_display>
+                <s.Typing_stats_display></s.Typing_stats_display>
               </s.Typing_stats_bar>
               <s.Typing_stats_bar></s.Typing_stats_bar>
             </s.Typing_stats_box>
@@ -64,8 +63,16 @@ const TypingPage = () => {
               <s.Typing_return src={returnicon} />
             </s.Typing_engilsh_mode>
           </s.Typing_section_one>
-          <s.Typing_display_sentence>
+          <s.Typing_section_two>
+            <s.Typing_display_sentence>
+              <s.Typing_display_icon src={rightarrow} />
+              <p>안녕하세요 저는 강민지입니다 쉐쉐이크</p>
             </s.Typing_display_sentence>
+            <s.Typing_enter_sentence>
+              <s.Typing_enter_icon src={enterarrow}/>
+              <s.Typing_input/>
+            </s.Typing_enter_sentence>
+          </s.Typing_section_two>
         </s.Typing_box>
       </s.Typing_layout>
     </s.Typing_container>

@@ -101,11 +101,50 @@ export const Typing_return = styled.img`
   color: #666666;
 `;
 
-export const Typing_display_sentence = styled.div `
-    display: flex;
+export const Typing_section_two = styled.div `
   margin: 0 auto;
   width: 90%;
   height: 40%;
-  border-bottom: 1px solid #d8d8d8;
-  align-items: center;
+  
+  `
+
+export const Typing_display_sentence = styled.div `
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    font-size: 24px;
+    gap: 10px;
+    
+    `
+  
+  export const Typing_enter_sentence = styled.div `
+    display: flex;
+    margin: 0;
+    height: 40%;
+    align-items: center;
+    font-size: 24px;
+    border-bottom: 5px solid #F6F7FA;
+    gap: 10px;
+    `
+  
+
+
+export const Typing_display_icon = styled.img`
+      width: 44px;
+      height: auto;
+    `;
+
+export const Typing_input = styled.input`
+  width: 100%;
+  height: 5vh;
+  font-size: 24px;
+  border-style: none;
+  font-family: "GmarketSansMedium";
 `
+
+export const Typing_enter_icon = styled.img`
+      width: 44px;
+      height: auto;
+      color: #666666;
+    `;
+
