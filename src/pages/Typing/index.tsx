@@ -5,6 +5,7 @@ import returnicon from "../../assets/return.svg";
 import rightarrow from "../../assets/rightarrow.svg";
 import enterarrow from "../../assets/enter.svg";
 import { fetchSentence } from "../../apis/sentenceAPI";
+import TypingStatsBox from "../../components/StatsDisplay";
 
 const TypingPage = () => {
   const [sentence, setSentence] = useState("");
@@ -34,58 +35,32 @@ const TypingPage = () => {
         <s.LogoImage src={logo} />
         <s.Typing_box>
           <s.Typing_section_one>
-            <s.Typing_stats_box>
-              <div>
-                <p>현재 타수 : </p>
-                <s.ColoredSpan color="#7280FB">267</s.ColoredSpan>
-              </div>
-              <s.Typing_stats_bar>
-                <s.Typing_stats_display></s.Typing_stats_display>
-              </s.Typing_stats_bar>
-            </s.Typing_stats_box>
-            <s.Typing_stats_box>
-              <div>
-                <p>최고 타수 : </p>
-                <span>600</span>
-              </div>
-              <s.Typing_stats_bar>
-                <s.Typing_stats_display></s.Typing_stats_display>
-              </s.Typing_stats_bar>
-              <s.Typing_stats_bar></s.Typing_stats_bar>
-            </s.Typing_stats_box>
-            <s.Typing_stats_box>
-              <div>
-                <p>정확도 : </p>
-                <span>100%</span>
-              </div>
-              <s.Typing_stats_bar>
-                <s.Typing_stats_display></s.Typing_stats_display>
-              </s.Typing_stats_bar>
-              <s.Typing_stats_bar></s.Typing_stats_bar>
-            </s.Typing_stats_box>
-            <s.Typing_engilsh_mode>
-              <p>Engilsh</p>
+            <TypingStatsBox label="현재 타수:" value="267" color="#7280FB" />
+            <TypingStatsBox label="최고 타수:" value="600" color="black" />
+            <TypingStatsBox label="정확도:" value="100%" color="black" />
+            <s.Typing_english_mode>
+              <p>English</p>
               <s.Typing_return src={returnicon} />
-            </s.Typing_engilsh_mode>
+            </s.Typing_english_mode>
           </s.Typing_section_one>
           <s.Typing_section_two>
             <s.Typing_display_sentence>
               <s.Typing_display_icon src={rightarrow} />
               <p>{sentence}</p>
-              
             </s.Typing_display_sentence>
             <s.Typing_enter_sentence>
-              <s.Typing_enter_icon src={enterarrow}/>
-              <s.Typing_input placeholder="위 문장을 타이핑하세요!"/>
+              <s.Typing_enter_icon src={enterarrow} />
+              <s.Typing_input placeholder="위 문장을 타이핑하세요!" />
             </s.Typing_enter_sentence>
           </s.Typing_section_two>
           <s.Typing_section_three>
-            <p>NEXT : {nextSentence}</p>
+            <p>NEXT: {nextSentence}</p>
           </s.Typing_section_three>
         </s.Typing_box>
       </s.Typing_layout>
     </s.Typing_container>
   );
 };
+
 
 export default TypingPage;

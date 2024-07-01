@@ -82,7 +82,7 @@ export const Typing_stats_display = styled.div<TypingStatsDisplayProps>`
   border-radius: 5px;
 `;
 
-export const Typing_engilsh_mode = styled.div `
+export const Typing_english_mode = styled.div `
   width: 25%;
   height: 60%;
   box-sizing: border-box;
@@ -124,6 +124,7 @@ export const Typing_display_sentence = styled.div `
     align-items: center;
     font-size: 24px;
     border-bottom: 5px solid #F6F7FA;
+    border-radius: 2px;
     gap: 10px;
     `
   
@@ -160,7 +161,7 @@ export const Typing_section_three = styled.div`
   width: 90%;
   height: 40%;
   color: #8C8C8C;
-  font-size: 16px;
+  font-size: 18px;
   & > p {
 
   }
