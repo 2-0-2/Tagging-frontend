@@ -11,11 +11,11 @@ export const Typing_container = styled.div`
 `;
 
 export const Typing_layout = styled.div`
-  padding: 5% 10% 10% 10%;
-  `;
+
+`;
 
 export const LogoImage = styled.img`
-  width: 150px;
+  width: 9.5rem;
   height: auto;
   position: absolute;
   top: 8vh;
@@ -76,13 +76,13 @@ interface TypingStatsDisplayProps {
 }
 
 export const Typing_stats_display = styled.div<TypingStatsDisplayProps>`
-  width: ${(props) => props.width || "3vw"};
+  width: ${(props) => props.width || "0%"};
   height: 8px;
   background: #7280fb;
   border-radius: 5px;
 `;
 
-export const Typing_english_mode = styled.div `
+export const Typing_english_mode = styled.div`
   width: 25%;
   height: 60%;
   box-sizing: border-box;
@@ -92,8 +92,7 @@ export const Typing_english_mode = styled.div `
   justify-content: center;
   align-items: center;
   gap: 8px;
-
-`
+`;
 
 export const Typing_return = styled.img`
   width: 24px;
@@ -101,39 +100,34 @@ export const Typing_return = styled.img`
   color: #666666;
 `;
 
-export const Typing_section_two = styled.div `
+export const Typing_section_two = styled.div`
   margin: 0 auto;
   width: 90%;
+`;
+
+export const Typing_display_sentence = styled.div`
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  font-size: 24px;
+  gap: 10px;
+`;
+
+export const Typing_enter_sentence = styled.div`
+  display: flex;
+  margin: 0;
   height: 40%;
-  
-  `
-
-export const Typing_display_sentence = styled.div `
-    display: flex;
-    margin-top: 20px;
-    align-items: center;
-    font-size: 24px;
-    gap: 10px;
-    
-    `
-  
-  export const Typing_enter_sentence = styled.div `
-    display: flex;
-    margin: 0;
-    height: 40%;
-    align-items: center;
-    font-size: 24px;
-    border-bottom: 5px solid #F6F7FA;
-    border-radius: 2px;
-    gap: 10px;
-    `
-  
-
+  align-items: center;
+  font-size: 24px;
+  border-bottom: 5px solid #f6f7fa;
+  border-radius: 2px;
+  gap: 10px;
+`;
 
 export const Typing_display_icon = styled.img`
-      width: 44px;
-      height: auto;
-    `;
+  width: 44px;
+  height: auto;
+`;
 
 export const Typing_input = styled.input`
   width: 100%;
@@ -152,18 +146,15 @@ export const Typing_input = styled.input`
 `;
 
 export const Typing_enter_icon = styled.img`
-      width: 44px;
-      height: auto;
-    `;
+  width: 44px;
+  height: auto;
+`;
 
 export const Typing_section_three = styled.div`
-        margin: 0 auto;
+  margin: 0 auto;
   width: 90%;
-  height: 40%;
-  color: #8C8C8C;
-  font-size: 18px;
+  color: #8c8c8c;
+  font-size: 1.125rem;
   & > p {
-
   }
-    `;
-
+`;

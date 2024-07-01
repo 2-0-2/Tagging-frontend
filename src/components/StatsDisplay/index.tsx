@@ -6,15 +6,17 @@ interface TypingStatsBoxProps {
   label: string;
   value: string | number;
   color?: string;
+  barWidth?: string;
 }
-const TypingStatsBox: React.FC<TypingStatsBoxProps> = ({ label, value, color }) => (
+
+const TypingStatsBox: React.FC<TypingStatsBoxProps> = ({ label, value, color, barWidth }) => (
   <s.Typing_stats_box>
     <div>
       <p>{label}</p>
       <s.ColoredSpan color={color}>{value}</s.ColoredSpan>
     </div>
     <s.Typing_stats_bar>
-      <s.Typing_stats_display></s.Typing_stats_display>
+      <s.Typing_stats_display width={barWidth}></s.Typing_stats_display>
     </s.Typing_stats_bar>
   </s.Typing_stats_box>
 );
