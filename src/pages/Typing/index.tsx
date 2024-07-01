@@ -17,16 +17,16 @@ const TypingPage = () => {
   const [wrongIndices, setWrongIndices] = useState<number[]>([]);
 
   useEffect(() => {
-    const getSentence = async () => {
-      try {
-        const data = await fetchSentence();
-        setSentence(data.sentence);
-        setNextSentence(data.sentence);
-      } catch (error) {
-        console.error("문장 가져오기 실패:", error);
-      }
+    const getSentence = () => {
+      fetchSentence()
+        .then((data) => {
+          setSentence(data.sentence);
+          setNextSentence(data.sentence);
+        })
+        .catch((error) => {
+          console.error("문장 가져오기 실패:", error);
+        });
     };
-
     getSentence();
   }, []);
 
@@ -73,28 +73,29 @@ const TypingPage = () => {
           <s.Typing_section_two>
             <s.Typing_display_sentence>
               <s.Typing_display_icon src={rightarrow} />
-              <p>
-                {sentence.split("").map((char, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      borderBottom: wrongIndices.includes(index)
-                        ? "2px solid red"
-                        : "none",
-                    }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </p>
+              <p>{sentence}</p>
             </s.Typing_display_sentence>
             <s.Typing_enter_sentence>
               <s.Typing_enter_icon src={enterarrow} />
-              <s.Typing_input
-                placeholder="위 문장을 타이핑하세요!"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
+                <s.Typing_input
+                  placeholder="위 문장을 타이핑하세요!"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                />
+                <s.Typing_input_check>
+                  {inputValue.split("").map((char, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        textDecoration: wrongIndices.includes(index)
+                          ? "red wavy underline"
+                          : "none",
+                      }}
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </s.Typing_input_check>
             </s.Typing_enter_sentence>
           </s.Typing_section_two>
           <s.Typing_section_three>

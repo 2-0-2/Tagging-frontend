@@ -10,9 +10,7 @@ export const Typing_container = styled.div`
   align-items: center;
 `;
 
-export const Typing_layout = styled.div`
-
-`;
+export const Typing_layout = styled.div``;
 
 export const LogoImage = styled.img`
   width: 9.5rem;
@@ -107,7 +105,7 @@ export const Typing_section_two = styled.div`
 
 export const Typing_display_sentence = styled.div`
   display: flex;
-  margin-top: 20px;
+  padding: 10px 0px;
   align-items: center;
   font-size: 24px;
   gap: 10px;
@@ -116,12 +114,12 @@ export const Typing_display_sentence = styled.div`
 export const Typing_enter_sentence = styled.div`
   display: flex;
   margin: 0;
-  height: 40%;
   align-items: center;
   font-size: 24px;
   border-bottom: 5px solid #f6f7fa;
   border-radius: 2px;
   gap: 10px;
+padding: 0px 0px 10px 0px;
 `;
 
 export const Typing_display_icon = styled.img`
@@ -130,13 +128,14 @@ export const Typing_display_icon = styled.img`
 `;
 
 export const Typing_input = styled.input`
-  width: 100%;
-  height: 5vh;
   font-size: 24px;
   border-style: none;
   font-family: "GmarketSansMedium";
   outline: none;
-  caret-color: #7280fb;
+  color: transparent;
+  caret-color: transparent;
+  ::selection {
+    background: transparent;
   ::placeholder {
     color: #d8d8d8;
   }
@@ -157,4 +156,11 @@ export const Typing_section_three = styled.div`
   font-size: 1.125rem;
   & > p {
   }
+`;
+
+export const Typing_input_check = styled.div`
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+  margin-left: 54px;
 `;
