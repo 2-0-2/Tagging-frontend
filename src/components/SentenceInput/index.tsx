@@ -10,11 +10,31 @@ interface SentenceInputProps {
 const SentenceInput = ({ sentence, onInputChange }: SentenceInputProps) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongIndices, setWrongIndices] = useState<number[]>([]);
+  const [isComposing, setIsComposing] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
+    // 한글 입력 중이 아닐때만 밑줄
+    if (!isComposing) {
+      updateWrongIndices(value);
+    }
+    onInputChange(value);
+  };
 
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+    setIsComposing(false);
+    const value = (e.target as HTMLInputElement).value; // 타입 캐스팅
+    setInputValue(value);
+    updateWrongIndices(value);
+    onInputChange(value);
+  };
+
+  const updateWrongIndices = (value: string) => {
     const newWrongIndices: number[] = [];
     for (let i = 0; i < value.length; i++) {
       if (value[i] !== sentence[i]) {
@@ -22,7 +42,6 @@ const SentenceInput = ({ sentence, onInputChange }: SentenceInputProps) => {
       }
     }
     setWrongIndices(newWrongIndices);
-    onInputChange(value);
   };
 
   return (
@@ -32,6 +51,8 @@ const SentenceInput = ({ sentence, onInputChange }: SentenceInputProps) => {
         placeholder="위 문장을 타이핑하세요!"
         value={inputValue}
         onChange={handleInputChange}
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
         spellCheck={false}
       />
       <s.Typing_input_check>
@@ -39,7 +60,7 @@ const SentenceInput = ({ sentence, onInputChange }: SentenceInputProps) => {
           <span
             key={index}
             style={{
-              borderBottom: wrongIndices.includes(index) ? "2.3px solid red" : "none",
+              borderBottom: wrongIndices.includes(index) ? "2.5px solid red" : "none",
             }}
           >
             {char}

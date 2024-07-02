@@ -15,6 +15,7 @@ const TypingPage = () => {
   const [currentSpeed, setCurrentSpeed] = useState<number>(0);
   const [accuracy, setAccuracy] = useState<number>(100);
   const [highSpeed, setHighSpeed] = useState<number>(0);
+  const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
     const getSentence = () => {
@@ -36,7 +37,7 @@ const TypingPage = () => {
   const handleInputChange = (value: string) => {
     // 타이핑 속도 및 정확도 계산 로직 추가 가능
   };
-  
+
   return (
     <s.Typing_container>
       <s.Typing_layout>
