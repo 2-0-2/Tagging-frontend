@@ -136,7 +136,7 @@ color: transparent;
   caret-color: transparent;
   z-index: 1;
   
-  width: 1000px;
+  width: 800px;
   ::selection {
     background: transparent;
   }
@@ -152,7 +152,7 @@ export const Typing_input_check = styled.div`
   overflow: hidden;
   margin-left: 54px;
   height: 33px;
-  width: 1000px;
+  width: 800px;
   z-index: 1;
   pointer-events: none;
   user-select: none;
