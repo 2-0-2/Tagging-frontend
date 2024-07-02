@@ -19,8 +19,11 @@ const TypingPage = () => {
   useEffect(() => {
     const getSentence = () => {
       fetchSentence()
+      .then((data) => {
+        setSentence(data.sentence);
+      })
+      fetchSentence()
         .then((data) => {
-          setSentence(data.sentence);
           setNextSentence(data.sentence);
         })
         .catch((error) => {
@@ -81,14 +84,15 @@ const TypingPage = () => {
                   placeholder="위 문장을 타이핑하세요!"
                   value={inputValue}
                   onChange={handleInputChange}
+                  spellCheck={false}
                 />
                 <s.Typing_input_check>
                   {inputValue.split("").map((char, index) => (
                     <span
                       key={index}
                       style={{
-                        textDecoration: wrongIndices.includes(index)
-                          ? "red wavy underline"
+                        borderBottom: wrongIndices.includes(index)
+                          ? "2.3px solid red"
                           : "none",
                       }}
                     >
