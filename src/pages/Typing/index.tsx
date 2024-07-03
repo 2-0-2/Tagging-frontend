@@ -64,23 +64,27 @@ const TypingPage = () => {
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout | null = null;
 
-    if (isDecreasing) {
+    if (isDecreasing && startTime !== null) {
       interval = setInterval(() => {
         setCurrentSpeed((prevSpeed) => {
           const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
-          const decreaseRate = 15;
+          const decreaseRate = 5;
           const decreasedSpeed = Math.max(
-            prevSpeed - decreaseRate * (elapsedTimeInSeconds / 10),
+            prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
             0,
           );
-          return decreasedSpeed;
+          return Math.round(decreasedSpeed * 10) / 10; // 소수점 한 자리까지 반올림
         });
       }, 100);
     }
 
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [isDecreasing, startTime]);
 
   const saveToLocalStorage = (key: string, value: object) => {
@@ -88,7 +92,6 @@ const TypingPage = () => {
     const newData = [...existingData, value];
     localStorage.setItem(key, JSON.stringify(newData));
   };
-  
 
   const getFromLocalStorage = (key: string): any[] => {
     const data = localStorage.getItem(key);
@@ -134,17 +137,17 @@ const TypingPage = () => {
 
     setCurrentSpeed(roundedWpm);
 
+    // 현재 타수가 최고 타수보다 크면 최고 타수를 업데이트
     if (roundedWpm > highSpeed) {
       setHighSpeed(roundedWpm);
     }
-
-    setBarWidth(getBarWidth(roundedWpm, highSpeed));
 
     if (value === sentence) {
       setSentenceCount((prevCount) => prevCount + 1);
       getNextSentence();
       setInputValue("");
-      setCurrentSpeed(0);
+      setStartTime(null); // 다음 문장으로 넘어갈 때 startTime 초기화
+      setCurrentSpeed(0); // 다음 문장으로 넘어갈 때 currentSpeed 초기화
     }
   };
 
