@@ -15,7 +15,8 @@ const TypingPage = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [startTime, setStartTime] = useState<number | null>(null);
   const [accuracy, setAccuracy] = useState<number>(100); // 정확도 초기값을 100으로 설정
-
+  const [barWidth, setBarWidth] = useState<string>('0%');
+  
   useEffect(() => {
     const getSentence = async () => {
       try {
@@ -41,6 +42,7 @@ const TypingPage = () => {
     if (value.trim() === '') {
       setCurrentSpeed(0); // 입력이 없으면 타수를 0으로 설정
       setAccuracy(100); // 입력이 없으면 정확도를 초기값 100으로 설정
+      setBarWidth('0%'); 
       return;
     }
 
@@ -56,6 +58,7 @@ const TypingPage = () => {
     // 최고 타수 업데이트
     if (wordsPerMinute > highSpeed) {
       setHighSpeed(wordsPerMinute);
+      setBarWidth('100%'); // 최고 타수일 때 막대 너비를 100%로 설정
     }
 
     // 문장 입력이 완료되면 다음 문장 가져오기
@@ -86,7 +89,7 @@ const TypingPage = () => {
         <s.Typing_box>
           <s.Typing_section_one>
             <TypingStatsBox label="현재 타수:" value={currentSpeed} color="#7280FB" barWidth={getBarWidth(currentSpeed, highSpeed)} />
-            <TypingStatsBox label="최고 타수:" value={highSpeed} color="black" />
+            <TypingStatsBox label="최고 타수:" value={highSpeed} color="black" barWidth={barWidth} />
             <TypingStatsBox label="정확도:" value={`${accuracy}%`} barWidth={accuracyBarWidth} />
             <s.Typing_english_mode>
               <p>English</p>
