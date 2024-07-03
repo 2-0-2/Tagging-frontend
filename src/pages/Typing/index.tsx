@@ -33,51 +33,36 @@ const TypingPage = () => {
   const handleInputChange = (value: string) => {
     setInputValue(value);
 
-    if (value.length === 0) {
-      // 입력이 없는 경우 타자수 서서히 감소
-      const interval = setInterval(() => {
-        setCurrentSpeed((prevSpeed) => Math.max(prevSpeed - 1, 0)); // 1초마다 1씩 감소
-      }, 1000);
-
-      return () => clearInterval(interval); // 컴포넌트가 언마운트되면 clearInterval
-    }
-
     if (!startTime) {
       setStartTime(Date.now());
-      setCurrentSpeed(0); // 시작 시 초기 타자수를 0으로 설정
-      return; // startTime이 설정되지 않았을 때 함수 종료
+      setCurrentSpeed(0); // 시작 시 초기 타수를 0으로 설정
     }
+
+    if (value.trim() === '') {
+      setCurrentSpeed(0); // 입력이 없으면 타수를 0으로 설정
+      setAccuracy(100); // 입력이 없으면 정확도를 초기값 100으로 설정
+      return;
+    }
+
+    const correctChars = value.split('').filter((char, idx) => char === sentence[idx]).length;
+    const accuracyValue = Math.floor((correctChars / value.length) * 100);
+    setAccuracy(accuracyValue);
 
     const endTime = Date.now();
-    const timeDiff = (endTime - startTime) / 800; // seconds
-
-    // 타수 계산 - 단어 당 평균 글자 수 (5로 가정)
-    const wordsTyped = value.trim().split(/\s+/).length;
-    const wpm = Math.round((wordsTyped / (timeDiff / 60)) * 10) / 10; // 소수점 첫째 자리까지 반올림
-    const roundedWpm = Math.max(Math.round(wpm * 10), 10); // 최소 타자수는 10으로 설정
-    setCurrentSpeed(roundedWpm);
+    const timeDiffInSeconds = (endTime - startTime!) / 1000; // milliseconds to seconds
+    const wordsPerMinute = Math.round((value.split(' ').length / timeDiffInSeconds) * 60);
+    setCurrentSpeed(Math.max(wordsPerMinute, 0));
 
     // 최고 타수 업데이트
-    if (roundedWpm > highSpeed) {
-      setHighSpeed(roundedWpm);
+    if (wordsPerMinute > highSpeed) {
+      setHighSpeed(wordsPerMinute);
     }
 
-    // 정확도 계산
-    const correctWords = value.trim().split(/\s+/).filter((word, i) => word === sentence.split(/\s+/)[i]).length;
-    const accuracyValue = Math.round((correctWords / sentence.split(/\s+/).length) * 100);
-
-    if (value.trim() === sentence.trim()) {
-      setAccuracy(100);
-      setInputValue('');
-      setStartTime(null);
-      setSentence(nextSentence);
-      setNextSentence('');
+    // 문장 입력이 완료되면 다음 문장 가져오기
+    if (value === sentence) {
       getNextSentence();
-    } else {
-      setAccuracy(accuracyValue);
     }
   };
-
 
   const getNextSentence = async () => {
     try {
@@ -88,7 +73,10 @@ const TypingPage = () => {
     }
   };
 
-  // 정확도 바 너비 계산
+  const getBarWidth = (current: number, max: number) => {
+    return `${(current / max) * 100}%`;
+  };
+
   const accuracyBarWidth = `${accuracy}%`;
 
   return (
@@ -97,9 +85,9 @@ const TypingPage = () => {
         <s.LogoImage src={logo} />
         <s.Typing_box>
           <s.Typing_section_one>
-            <TypingStatsBox label="현재 타수 :" value={currentSpeed} color="#7280FB" barWidth={`${(currentSpeed / 100) * 100}%`} />
-            <TypingStatsBox label="최고 타수 :" value={highSpeed} color="black" barWidth={`${(highSpeed / 100) * 100}%`} />
-            <TypingStatsBox label="정확도 :" value={accuracy} barWidth={accuracyBarWidth} />
+            <TypingStatsBox label="현재 타수:" value={currentSpeed} color="#7280FB" barWidth={getBarWidth(currentSpeed, highSpeed)} />
+            <TypingStatsBox label="최고 타수:" value={highSpeed} color="black" />
+            <TypingStatsBox label="정확도:" value={`${accuracy}%`} barWidth={accuracyBarWidth} />
             <s.Typing_english_mode>
               <p>English</p>
               <s.Typing_return src={returnicon} />
