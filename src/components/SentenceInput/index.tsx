@@ -6,15 +6,20 @@ interface SentenceInputProps {
   sentence: string;
   onInputChange: (value: string) => void;
   onEnterPress: () => void;
+  inputValue: string; // inputValue 추가
 }
 
-const SentenceInput = ({ sentence, onInputChange, onEnterPress }:SentenceInputProps) => {
-  const [inputValue, setInputValue] = useState('');
+const SentenceInput = ({
+  sentence,
+  onInputChange,
+  onEnterPress,
+  inputValue // inputValue 추가
+}: SentenceInputProps) => {
   const [wrongIndices, setWrongIndices] = useState<number[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setInputValue(value);
+    onInputChange(value);
 
     const newWrongIndices: number[] = [];
     for (let i = 0; i < value.length; i++) {
@@ -23,13 +28,11 @@ const SentenceInput = ({ sentence, onInputChange, onEnterPress }:SentenceInputPr
       }
     }
     setWrongIndices(newWrongIndices);
-    onInputChange(value);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onEnterPress();
-      setInputValue('');
     }
   };
 
@@ -38,9 +41,9 @@ const SentenceInput = ({ sentence, onInputChange, onEnterPress }:SentenceInputPr
       <s.Typing_enter_icon src={enterarrow} />
       <s.Typing_input
         placeholder="위 문장을 타이핑하세요!"
-        value={inputValue}
+        value={inputValue} // 입력 값 사용
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         spellCheck={false}
       />
       <s.Typing_input_check>
