@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchSentence = () => {
   return axios
-    .get("http://211.112.175.88:5050/")
+    .get("http://211.112.175.88:5050/ko")
     .then((response) => {
       return response.data;
     })
