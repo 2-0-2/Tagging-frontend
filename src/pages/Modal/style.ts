@@ -6,7 +6,6 @@ export const Modal_Layout = styled.div`
   padding: 50px;
   display: flex;
   flex-direction: column;
-  background-color: aliceblue;
   border-radius: 20px;
   gap: 33px;
 `;
