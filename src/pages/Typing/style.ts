@@ -27,8 +27,8 @@ export const Typing_box = styled.div`
   box-shadow: 0px 0px 30px rgba(70, 70, 70, 0.1);
   border-radius: 1.25rem;
   font-family: "GmarketSansMedium";
-  z-index:-1;
-  `;
+  z-index: -1;
+`;
 
 export const Typing_section_one = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export const Typing_section_one = styled.div`
   height: 25%;
   border-bottom: 1px solid #d8d8d8;
   align-items: center;
-  `;
+`;
 
 export const Typing_stats_box = styled.div`
   width: 25%;
@@ -49,7 +49,7 @@ export const Typing_stats_box = styled.div`
   justify-content: center;
   padding: 20px 30px 30px 30px;
   border-right: 1.5px solid #d8d8d8;
-  
+
   & > div {
     display: flex;
     flex-direction: row;
@@ -58,17 +58,17 @@ export const Typing_stats_box = styled.div`
     gap: 8px;
     height: 6vh;
   }
-  `;
+`;
 
 export const ColoredSpan = styled.span`
   color: ${(props) => props.color || "black"};
-  `;
+`;
 
 export const Typing_stats_bar = styled.div`
   width: 9vw;
   background: #e8e8e8;
   border-radius: 5px;
-  `;
+`;
 
 interface TypingStatsDisplayProps {
   width?: string;
@@ -79,7 +79,7 @@ export const Typing_stats_display = styled.div<TypingStatsDisplayProps>`
   height: 8px;
   background: #7280fb;
   border-radius: 5px;
-  `;
+`;
 
 export const Typing_english_mode = styled.div`
   width: 25%;
@@ -90,18 +90,18 @@ export const Typing_english_mode = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  `;
+`;
 
 export const Typing_return = styled.img`
   width: 24px;
   height: auto;
   color: #666666;
-  `;
+`;
 
 export const Typing_section_two = styled.div`
   margin: 0 auto;
   width: 90%;
-  `;
+`;
 
 export const Typing_display_sentence = styled.div`
   display: flex;
@@ -109,7 +109,7 @@ export const Typing_display_sentence = styled.div`
   align-items: center;
   font-size: 24px;
   gap: 10px;
-  `;
+`;
 
 export const Typing_enter_sentence = styled.div`
   display: flex;
@@ -120,11 +120,11 @@ export const Typing_enter_sentence = styled.div`
   border-radius: 2px;
   gap: 10px;
   padding: 0px 0px 15px 0px;
-  `;
+`;
 
 export const Typing_display_icon = styled.img`
   width: 44px;
-  `;
+`;
 
 export const Typing_input = styled.input`
   font-size: 24px;
@@ -144,7 +144,8 @@ export const Typing_input = styled.input`
   &:focus::placeholder {
     color: #d8d8d8;
   }
-  `
+`;
+
 export const Typing_input_check = styled.div`
   position: absolute;
   overflow: hidden;
@@ -154,12 +155,12 @@ export const Typing_input_check = styled.div`
   z-index: 1;
   pointer-events: none;
   user-select: none;
-  `;
+`;
 
 export const Typing_enter_icon = styled.img`
-padding: 0 0 5px 0;
-width: 44px;
-height: auto;
+  padding: 0 0 5px 0;
+  width: 44px;
+  height: auto;
 `;
 
 export const Typing_section_three = styled.div`
@@ -169,5 +170,4 @@ export const Typing_section_three = styled.div`
   font-size: 1.125rem;
   & > p {
   }
-  `;
-
+`;

@@ -1,12 +1,15 @@
 import axios from "axios";
 
-export const englishSentence = () => {
-  return axios
-    .get("http://211.112.175.88:5050/en")
-    .then((res) => {
-      return res.data;
-    })
-    .catch((error) => {
-      console.error("API 호출 중 오류 발생:", error);
-    });
+interface SentenceResponse {
+  sentence: string;
+}
+
+export const englishSentence = async (): Promise<SentenceResponse> => {
+  try {
+    const res = await axios.get("http://211.112.175.88:5050/en");
+    return res.data;
+  } catch (error) {
+    console.error("API 호출 중 오류 발생:", error);
+    return { sentence: "" }; // 기본값 반환
+  }
 };
