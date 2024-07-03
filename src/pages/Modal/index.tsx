@@ -1,6 +1,8 @@
+import React, { useEffect } from "react";
 import * as S from "./style";
 import Logo from "../../assets/Logo";
 import ESC from "../../assets/ESC";
+import { useNavigate } from "react-router-dom"; // useNavigate를 import
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,6 +19,22 @@ const Modal: React.FC<ModalProps> = ({
   highSpeed,
   avgAccuracy,
 }) => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        navigate("/"); // ESC 키를 누르면 '/' 경로로 이동
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
+
   if (!isOpen) return null;
 
   const avg_detail = [
@@ -31,8 +49,8 @@ const Modal: React.FC<ModalProps> = ({
   ];
 
   return (
-    <S.Modal_Overlay>
-      <S.Modal_Layout>
+    <S.Modal_Overlay onClick={onClose}>
+      <S.Modal_Layout onClick={(e) => e.stopPropagation()}>
         <S.Title>
           <Logo />
         </S.Title>
