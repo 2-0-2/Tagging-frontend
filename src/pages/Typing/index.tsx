@@ -17,20 +17,27 @@ const TypingPage = () => {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [accuracy, setAccuracy] = useState<number>(0); // 정확도 초기값을 100으로 설정
   const [barWidth, setBarWidth] = useState<string>('0%');
+  const [isEnglishMode, setIsEnglishMode] = useState<boolean>(false); // 영어 모드 여부 상태
 
   useEffect(() => {
-    const getSentence = async () => {
-      try {
-        const data = await fetchSentence();
-        setSentence(data.sentence);
-        const nextData = await fetchSentence();
-        setNextSentence(nextData.sentence);
-      } catch (error) {
-        console.error('문장 가져오기 실패:', error);
-      }
-    };
-    getSentence();
-  }, []);
+    if (isEnglishMode) {
+      getEnglishSentence(); // 초기 영어 문장 가져오기
+    } else {
+      getSentence(); // 초기 한국어 문장 가져오기
+    }
+  }, [isEnglishMode]);
+
+  // 한국어 문장 가져오기
+  const getSentence = async () => {
+    try {
+      const data = await fetchSentence();
+      setSentence(data.sentence);
+      const nextData = await fetchSentence();
+      setNextSentence(nextData.sentence);
+    } catch (error) {
+      console.error('문장 가져오기 실패:', error);
+    }
+  };
 
   // 영어 문장 가져오기
   const getEnglishSentence = async () => {
@@ -94,9 +101,15 @@ const TypingPage = () => {
 
   const getNextSentence = async () => {
     try {
-      const data = await fetchSentence();
-      setSentence(nextSentence);
-      setNextSentence(data.sentence); // 다음 문장 업데이트
+      if (isEnglishMode) {
+        const data = await englishSentence();
+        setSentence(nextSentence);
+        setNextSentence(data.sentence); // 다음 영어 문장 업데이트
+      } else {
+        const data = await fetchSentence();
+        setSentence(nextSentence);
+        setNextSentence(data.sentence); // 다음 한국어 문장 업데이트
+      }
     } catch (error) {
       console.error('다음 문장 가져오기 실패:', error);
     }
@@ -107,6 +120,10 @@ const TypingPage = () => {
   };
 
   const accuracyBarWidth = `${accuracy}%`;
+
+  const toggleLanguageMode = () => {
+    setIsEnglishMode(prev => !prev); // 한국어 <-> 영어 모드 토글
+  };
 
   return (
     <s.Typing_container>
@@ -132,8 +149,8 @@ const TypingPage = () => {
               barWidth={accuracyBarWidth}
             />
             <s.Typing_english_mode>
-              <p>English</p>
-              <s.Typing_return src={returnicon} onClick={getEnglishSentence} />
+              <p>{isEnglishMode ? '한국어' : 'English'}</p>
+              <s.Typing_return src={returnicon} onClick={toggleLanguageMode} />
             </s.Typing_english_mode>
           </s.Typing_section_one>
           <s.Typing_section_two>
