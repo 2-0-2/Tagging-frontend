@@ -33,12 +33,12 @@ const TypingPage = () => {
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-
+  
     if (!startTime) {
       setStartTime(Date.now());
       setCurrentSpeed(0); // 시작 시 초기 타수를 0으로 설정
     }
-
+  
     if (value.trim() === '') {
       setCurrentSpeed(0); // 입력이 없으면 타수를 0으로 설정
       setAccuracy(0); // 입력이 없으면 정확도를 초기값 100으로 설정
@@ -46,18 +46,24 @@ const TypingPage = () => {
       return;
     }
     
+    // 정확도 계산
     const correctChars = value.split('').filter((char, idx) => char === sentence[idx]).length;
     const accuracyValue = Math.floor((correctChars / value.length) * 100);
     setAccuracy(accuracyValue);
-
+  
     const endTime = Date.now();
-    const timeDiffInSeconds = (endTime - startTime!) / 1000; // milliseconds to seconds
-    const wordsPerMinute = Math.round((value.split(' ').length / timeDiffInSeconds) * 60);
-    setCurrentSpeed(Math.max(wordsPerMinute, 0));
+    const timeDiffInSeconds = (endTime - startTime!) / 1000;
     
+    // 타자수 계산 (단어 당 평균 글자 수 고려 안 함)
+    const charactersTyped = value.length;
+    const wordsPerMinute = Math.round((charactersTyped / (5 * timeDiffInSeconds / 60)) * 10) / 10; // 평균 단어 길이 5로 가정
+    const roundedWpm = Math.max(Math.round(wordsPerMinute * 10), 10); // 최소 타자수는 10으로 설정
+    
+    setCurrentSpeed(roundedWpm);
+  
     // 최고 타수 업데이트
-    if (wordsPerMinute > highSpeed) {
-      setHighSpeed(wordsPerMinute);
+    if (roundedWpm > highSpeed) {
+      setHighSpeed(roundedWpm);
       setBarWidth('100%'); 
     }
     
@@ -66,7 +72,7 @@ const TypingPage = () => {
       getNextSentence();
     }
   };
-
+  
   const getNextSentence = async () => {
     try {
       const data = await fetchSentence();
