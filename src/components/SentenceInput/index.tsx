@@ -15,7 +15,6 @@ const SentenceInput = ({ sentence, onInputChange }: SentenceInputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
-    // 한글 입력 중이 아닐때만 밑줄
     if (!isComposing) {
       updateWrongIndices(value);
     }

@@ -116,7 +116,7 @@ export const Typing_enter_sentence = styled.div`
   margin: 0;
   align-items: center;
   font-size: 24px;
-  border-bottom: 5px solid #f6f7fa;
+  border-bottom: ${(props) => props.color || "5px solid #f6f7fa"};
   border-radius: 2px;
   gap: 10px;
   padding: 0px 0px 15px 0px;
@@ -124,7 +124,6 @@ export const Typing_enter_sentence = styled.div`
 
 export const Typing_display_icon = styled.img`
   width: 44px;
-  height: auto;
   `;
 
 export const Typing_input = styled.input`
@@ -132,11 +131,11 @@ export const Typing_input = styled.input`
   border-style: none;
   font-family: "GmarketSansMedium";
   outline: none;
-color: transparent;
+  color: transparent;
   caret-color: transparent;
   z-index: 1;
-  
-  width: 800px;
+  background-color: blue;
+  width: 100%;
   ::selection {
     background: transparent;
   }
@@ -152,16 +151,18 @@ export const Typing_input_check = styled.div`
   overflow: hidden;
   margin-left: 54px;
   height: 33px;
-  width: 800px;
+  width: 55%;
   z-index: 1;
   pointer-events: none;
+  background-color: pink;
   user-select: none;
   `;
 
 export const Typing_enter_icon = styled.img`
-  width: 44px;
-  height: auto;
-  `;
+padding: 0 0 5px 0;
+width: 44px;
+height: auto;
+`;
 
 export const Typing_section_three = styled.div`
   margin: 0 auto;

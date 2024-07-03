@@ -2,6 +2,7 @@ import React from 'react';
 import * as s from "../../pages/Typing/style";
 
 
+
 interface TypingStatsBoxProps {
   label: string;
   value: string | number;
@@ -9,7 +10,7 @@ interface TypingStatsBoxProps {
   barWidth?: string;
 }
 
-const TypingStatsBox: React.FC<TypingStatsBoxProps> = ({ label, value, color, barWidth }) => (
+const TypingStatsBox = ({ label, value, color, barWidth } : TypingStatsBoxProps) => (
   <s.Typing_stats_box>
     <div>
       <p>{label}</p>

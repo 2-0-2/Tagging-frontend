@@ -8,7 +8,6 @@ import { fetchSentence } from "../../apis/sentenceAPI";
 import TypingStatsBox from "../../components/StatsDisplay";
 import SentenceInput from "../../components/SentenceInput";
 
-
 const TypingPage = () => {
   const [sentence, setSentence] = useState<string>("");
   const [nextSentence, setNextSentence] = useState<string>("");
@@ -35,7 +34,7 @@ const TypingPage = () => {
   }, []);
 
   const handleInputChange = (value: string) => {
-    // 타이핑 속도 및 정확도 계산 로직 추가 가능
+
   };
 
   return (
@@ -44,9 +43,9 @@ const TypingPage = () => {
         <s.LogoImage src={logo} />
         <s.Typing_box>
           <s.Typing_section_one>
-            <TypingStatsBox label="현재 타수:" value={currentSpeed} color="#7280FB" />
-            <TypingStatsBox label="최고 타수:" value={highSpeed} color="black" />
-            <TypingStatsBox label="정확도:" value={`${accuracy}%`} color="black" />
+            <TypingStatsBox label="현재 타수 :" value={currentSpeed} color="#7280FB" />
+            <TypingStatsBox label="최고 타수 :" value={highSpeed} color="black" />
+            <TypingStatsBox label="정확도 :" value={`${accuracy}%`} color="black" />
             <s.Typing_english_mode>
               <p>English</p>
               <s.Typing_return src={returnicon} />
