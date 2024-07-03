@@ -4,6 +4,7 @@ import logo from '../../assets/로고.svg';
 import returnicon from '../../assets/return.svg';
 import rightarrow from '../../assets/rightarrow.svg';
 import { fetchSentence } from '../../apis/sentenceAPI';
+import { englishSentence } from '../../apis/EsentenceAPI';
 import TypingStatsBox from '../../components/StatsDisplay';
 import SentenceInput from '../../components/SentenceInput';
 
@@ -30,6 +31,18 @@ const TypingPage = () => {
     };
     getSentence();
   }, []);
+
+  // 영어 문장 가져오기
+  const getEnglishSentence = async () => {
+    try {
+      const data = await englishSentence();
+      setSentence(data.sentence);
+      const nextData = await englishSentence();
+      setNextSentence(nextData.sentence);
+    } catch (error) {
+      console.error('영어 문장 가져오기 실패:', error);
+    }
+  };
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -82,7 +95,7 @@ const TypingPage = () => {
   const getNextSentence = async () => {
     try {
       const data = await fetchSentence();
-      setSentence(nextSentence); // 현재 문장을 다음 문장으로 업데이트
+      setSentence(nextSentence);
       setNextSentence(data.sentence); // 다음 문장 업데이트
     } catch (error) {
       console.error('다음 문장 가져오기 실패:', error);
@@ -120,23 +133,23 @@ const TypingPage = () => {
             />
             <s.Typing_english_mode>
               <p>English</p>
-              <s.Typing_return src={returnicon} />
+              <s.Typing_return src={returnicon} onClick={getEnglishSentence} />
             </s.Typing_english_mode>
           </s.Typing_section_one>
           <s.Typing_section_two>
             <s.Typing_display_sentence>
-              <s.Typing_display_icon src={rightarrow} />
-              <p>{sentence}</p> {/* 위에 있는 문장을 보여줌 */}
+              <s.Typing_display_icon src={rightarrow} onClick={getNextSentence} />
+              <p>{sentence}</p> 
             </s.Typing_display_sentence>
             <SentenceInput
               sentence={sentence}
               onInputChange={handleInputChange}
               onEnterPress={getNextSentence}
-              inputValue={inputValue} // 입력 값 상태 전달
+              inputValue={inputValue}
             />
           </s.Typing_section_two>
           <s.Typing_section_three>
-            <p>NEXT: {nextSentence}</p> {/* 다음 문장을 보여줌 */}
+            <p>NEXT: {nextSentence}</p> 
           </s.Typing_section_three>
         </s.Typing_box>
       </s.Typing_layout>

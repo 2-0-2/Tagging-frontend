@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const fetchSentence = () => {
+export const englishSentence = () => {
   return axios
-    .get("http://211.112.175.88:5050/ko")
+    .get("http://211.112.175.88:5050/en")
     .then((res) => {
       return res.data;
     })
