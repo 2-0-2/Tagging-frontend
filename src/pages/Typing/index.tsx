@@ -60,13 +60,12 @@ const TypingPage = () => {
     }
 
     if (value.trim() === '') {
-      // 입력이 없을 때는 이전 타수를 점진적으로 감소시킴
       const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
-      const decreaseRate = 10; // 초당 타수 감소 비율
+      const decreaseRate = 15;
       const decreasedSpeed = Math.max(currentSpeed - decreaseRate * elapsedTimeInSeconds, 0);
       setCurrentSpeed(decreasedSpeed);
 
-      setAccuracy(0); // 입력이 없으면 정확도를 초기값 100으로 설정
+      setAccuracy(0);
       setBarWidth('0%');
       return;
     }
