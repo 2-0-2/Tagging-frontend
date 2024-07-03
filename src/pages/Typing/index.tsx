@@ -3,10 +3,11 @@ import * as s from "./style";
 import logo from "../../assets/로고.svg";
 import returnicon from "../../assets/return.svg";
 import rightarrow from "../../assets/rightarrow.svg";
-import enterarrow from "../../assets/enter.svg";
 import { fetchSentence } from "../../apis/sentenceAPI";
 import TypingStatsBox from "../../components/StatsDisplay";
 import SentenceInput from "../../components/SentenceInput";
+import AccuracyDisplay from "../../components/AccuracyDisplay/AccuracyDisplay"; // AccuracyDisplay 컴포넌트 import 추가
+
 
 const TypingPage = () => {
   const [sentence, setSentence] = useState<string>("");
@@ -14,7 +15,7 @@ const TypingPage = () => {
   const [currentSpeed, setCurrentSpeed] = useState<number>(0);
   const [accuracy, setAccuracy] = useState<number>(100);
   const [highSpeed, setHighSpeed] = useState<number>(0);
-  const [isComposing, setIsComposing] = useState(false);
+  const [typedSentence, setTypedSentence] = useState<string>("");
 
   useEffect(() => {
     const getSentence = () => {
@@ -34,9 +35,30 @@ const TypingPage = () => {
   }, []);
 
   const handleInputChange = (value: string) => {
-
+    setTypedSentence(value);
+    const calculatedAccuracy = calculateAccuracy(sentence, value); // 입력된 문장과 정확한 문장을 비교하여 정확도 계산
+    setAccuracy(calculatedAccuracy);
   };
 
+  const calculateAccuracy = (correctSentence: string, typedSentence: string) => {
+    const correctWords = correctSentence.split(" ");
+    const typedWords = typedSentence.split(" ");
+
+    let correctWordCount = 0;
+
+    correctWords.forEach((word, index) => {
+      if (typedWords[index] && typedWords[index] === word) {
+        correctWordCount++;
+      }
+    });
+
+    const totalWords = correctWords.length;
+    const calculatedAccuracy = (correctWordCount / totalWords) * 100;
+
+    return calculatedAccuracy;
+  };
+
+ 
   return (
     <s.Typing_container>
       <s.Typing_layout>
@@ -45,7 +67,8 @@ const TypingPage = () => {
           <s.Typing_section_one>
             <TypingStatsBox label="현재 타수 :" value={currentSpeed} color="#7280FB" />
             <TypingStatsBox label="최고 타수 :" value={highSpeed} color="black" />
-            <TypingStatsBox label="정확도 :" value={`${accuracy}%`} color="black" />
+            {/* AccuracyDisplay 컴포넌트 추가 */}
+            <AccuracyDisplay accuracy={accuracy} />
             <s.Typing_english_mode>
               <p>English</p>
               <s.Typing_return src={returnicon} />
@@ -59,7 +82,7 @@ const TypingPage = () => {
             <SentenceInput sentence={sentence} onInputChange={handleInputChange} />
           </s.Typing_section_two>
           <s.Typing_section_three>
-            <p>NEXT: {nextSentence}</p>
+            <p>NEXT : {nextSentence}</p>
           </s.Typing_section_three>
         </s.Typing_box>
       </s.Typing_layout>

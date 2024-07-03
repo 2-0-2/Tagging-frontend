@@ -132,9 +132,8 @@ export const Typing_input = styled.input`
   font-family: "GmarketSansMedium";
   outline: none;
   color: transparent;
-  caret-color: transparent;
+  caret-color: #7280fb;
   z-index: 1;
-  background-color: blue;
   width: 100%;
   ::selection {
     background: transparent;
@@ -154,7 +153,6 @@ export const Typing_input_check = styled.div`
   width: 55%;
   z-index: 1;
   pointer-events: none;
-  background-color: pink;
   user-select: none;
   `;
 
