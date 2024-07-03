@@ -34,9 +34,9 @@ const TypingPage = () => {
   useEffect(() => {
     if (sentence) {
       saveToLocalStorage("typingData", {
-        currentSpeed,
-        highSpeed,
-        accuracy,
+        currentSpeed: Math.round(currentSpeed), // 반올림 처리
+        highSpeed: Math.round(highSpeed), // 반올림 처리
+        accuracy: Math.round(accuracy), // 반올림 처리
       });
     }
   }, [sentence, currentSpeed, highSpeed, accuracy]);
@@ -84,8 +84,11 @@ const TypingPage = () => {
   }, [isDecreasing, startTime]);
 
   const saveToLocalStorage = (key: string, value: object) => {
-    localStorage.setItem(key, JSON.stringify(value));
+    const existingData = getFromLocalStorage(key);
+    const newData = [...existingData, value];
+    localStorage.setItem(key, JSON.stringify(newData));
   };
+  
 
   const getFromLocalStorage = (key: string): any[] => {
     const data = localStorage.getItem(key);
@@ -248,9 +251,9 @@ const TypingPage = () => {
         <Modal
           isOpen={showModal}
           onClose={closeModal}
-          avgSpeed={avgSpeed}
-          highSpeed={highSpeed}
-          avgAccuracy={avgAccuracy}
+          avgSpeed={Math.round(avgSpeed)} // 반올림 처리
+          highSpeed={Math.round(highSpeed)} // 반올림 처리
+          avgAccuracy={Math.round(avgAccuracy)} // 반올림 처리
         />
       </s.Typing_layout>
     </s.Typing_container>
