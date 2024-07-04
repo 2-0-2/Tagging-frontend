@@ -111,12 +111,12 @@ export const Typing_display_sentence = styled.div`
   gap: 10px;
 `;
 
-export const Typing_enter_sentence = styled.div`
+export const Typing_enter_sentence = styled.div<{ isFocused: boolean }>`
   display: flex;
   margin: 0;
   align-items: center;
   font-size: 24px;
-  border-bottom: ${(props) => props.color || "5px solid #f6f7fa"};
+  border-bottom: ${(props) => props.isFocused ? '5px solid #7280fb' : '5px solid #f6f7fa'};
   border-radius: 2px;
   gap: 10px;
   padding: 0px 0px 15px 0px;
@@ -161,6 +161,7 @@ export const Typing_enter_icon = styled.img`
   padding: 0 0 5px 0;
   width: 44px;
   height: auto;
+  color: pink;
 `;
 
 export const Typing_section_three = styled.div`

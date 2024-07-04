@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as s from '../../pages/Typing/style';
 import enterarrow from '../../assets/enter.svg';
+import enterbluearrow from '../../assets/enterblue.svg';
 
 interface SentenceInputProps {
   sentence: string;
@@ -16,6 +17,7 @@ const SentenceInput = ({
   inputValue // inputValue 추가
 }: SentenceInputProps) => {
   const [wrongIndices, setWrongIndices] = useState<number[]>([]);
+  const [isFocused, setIsFocused] = useState<boolean>(false); // 포커스 상태 관리
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -37,14 +39,16 @@ const SentenceInput = ({
   };
 
   return (
-    <s.Typing_enter_sentence>
-      <s.Typing_enter_icon src={enterarrow} />
+    <s.Typing_enter_sentence isFocused={isFocused}>
+      <s.Typing_enter_icon src={isFocused ? enterbluearrow : enterarrow} />
       <s.Typing_input
         placeholder="위 문장을 타이핑하세요!"
         value={inputValue} // 입력 값 사용
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         spellCheck={false}
+        onFocus={() => setIsFocused(true)} // 포커스 시 상태 변경
+        onBlur={() => setIsFocused(false)} // 포커스 해제 시 상태 변경
       />
       <s.Typing_input_check>
         {inputValue.split('').map((char, index) => (
