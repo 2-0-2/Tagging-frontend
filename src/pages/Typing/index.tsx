@@ -103,12 +103,13 @@ const TypingPage = () => {
       return [];
     }
   };
+
   const handleEnterPress = () => {
     setSentenceCount((prevCount) => prevCount + 1);
     getNextSentence();
     setInputValue("");
-    setStartTime(null); // 다음 문장으로 넘어갈 때 startTime 초기화
-    setCurrentSpeed(0); // 다음 문장으로 넘어갈 때 currentSpeed 초기화
+    setStartTime(null);
+    setCurrentSpeed(0);
   };
   
 
