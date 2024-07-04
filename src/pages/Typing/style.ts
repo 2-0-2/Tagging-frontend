@@ -116,7 +116,7 @@ export const Typing_enter_sentence = styled.div<{ isFocused: boolean }>`
   margin: 0;
   align-items: center;
   font-size: 24px;
-  border-bottom: ${(props) => props.isFocused ? '5px solid #7280fb' : '5px solid #f6f7fa'};
+  border-bottom: ${(props) => props.isFocused ? '3px solid #7280fb' : '3px solid #f6f7fa'};
   border-radius: 2px;
   gap: 10px;
   padding: 0px 0px 15px 0px;
