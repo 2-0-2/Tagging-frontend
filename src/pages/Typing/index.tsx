@@ -66,19 +66,19 @@ const TypingPage = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
-if (isDecreasing && startTime !== null) {
-  interval = setInterval(() => {
-    setCurrentSpeed((prevSpeed) => {
-      const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
-      const decreaseRate = 5;
-      const decreasedSpeed = Math.max(
-        prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
-        0,
-      );
-      return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
-    });
-  }, 100);
-}
+    if (isDecreasing && startTime !== null) {
+      interval = setInterval(() => {
+        setCurrentSpeed((prevSpeed) => {
+          const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
+          const decreaseRate = 5;
+          const decreasedSpeed = Math.max(
+            prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
+            0,
+          );
+          return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
+        });
+      }, 100);
+    }
 
     return () => {
       if (interval) {
@@ -106,12 +106,12 @@ if (isDecreasing && startTime !== null) {
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-
+  
     if (!startTime) {
       setStartTime(Date.now());
       setCurrentSpeed(0);
     }
-
+  
     if (value.trim() === "") {
       setIsDecreasing(true);
       setAccuracy(0);
@@ -120,29 +120,32 @@ if (isDecreasing && startTime !== null) {
     } else {
       setIsDecreasing(false);
     }
-
+  
     const correctChars = value
       .split("")
       .filter((char, idx) => char === sentence[idx]).length;
     const accuracyValue = Math.floor((correctChars / value.length) * 100);
     setAccuracy(accuracyValue);
-
+  
     const endTime = Date.now();
     const timeDiffInSeconds = (endTime - startTime!) / 1000;
-
+  
     const charactersTyped = value.length;
     const wordsPerMinute =
       Math.round((charactersTyped / ((5 * timeDiffInSeconds) / 60)) * 10) / 10;
-    const roundedWpm = Math.max(Math.round(wordsPerMinute * 10), 10);
-
+    const roundedWpm = Math.min(Math.round(wordsPerMinute * 10), 1000); // 최대 타수 1000으로 제한
+  
     setCurrentSpeed(roundedWpm);
-
-    // 현재 타수가 최고 타수보다 크면 최고 타수를 업데이트
-    if (roundedWpm > highSpeed) {
+  
+    // 현재 타수가 최고 타수보다 크면 최고 타수를 업데이트 (최대 703으로 제한)
+    if (roundedWpm > highSpeed && roundedWpm <= 703) {
       setHighSpeed(roundedWpm);
+    } else if (roundedWpm > 703) {
+      setHighSpeed(703);
     }
-
-    if (value === sentence) {
+  
+    // 입력값이 현재 문장의 길이를 넘어갈 경우 다음 문장으로 전환
+    if (value.length >= sentence.length) {
       setSentenceCount((prevCount) => prevCount + 1);
       getNextSentence();
       setInputValue("");
@@ -150,6 +153,7 @@ if (isDecreasing && startTime !== null) {
       setCurrentSpeed(0); // 다음 문장으로 넘어갈 때 currentSpeed 초기화
     }
   };
+  
 
   useEffect(() => {
     if (sentenceCount === 3) {
