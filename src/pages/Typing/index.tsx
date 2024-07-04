@@ -152,7 +152,7 @@ const TypingPage = () => {
   };
 
   useEffect(() => {
-    if (sentenceCount === 5) {
+    if (sentenceCount === 3) {
       setShowModal(true);
     }
   }, [sentenceCount]);

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as S from "./style";
 import Logo from "../../assets/Logo";
 import ESC from "../../assets/ESC";
-import { useNavigate } from "react-router-dom"; // useNavigate를 import
+import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,12 +19,12 @@ const Modal: React.FC<ModalProps> = ({
   highSpeed,
   avgAccuracy,
 }) => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        navigate("/"); // ESC 키를 누르면 '/' 경로로 이동
+        navigate("/");
       }
     };
 
@@ -38,14 +38,9 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const avg_detail = [
-    { id: 1, title: "평균 타수(w/m)", achievement: avgSpeed, sub_detail: "타" },
-    {
-      id: 2,
-      title: "최고 타수(max)",
-      achievement: highSpeed,
-      sub_detail: "타",
-    },
-    { id: 3, title: "정확도(%)", achievement: avgAccuracy, sub_detail: "%" },
+    { id: 1, title: "평균 타수(w/m)", achievement: avgSpeed, sub_detail: "타", width: (avgSpeed / highSpeed) * 100 },
+    { id: 2, title: "최고 타수(max)", achievement: highSpeed, sub_detail: "타", width: 100 },
+    { id: 3, title: "정확도(%)", achievement: avgAccuracy, sub_detail: "%", width: avgAccuracy },
   ];
 
   return (
@@ -60,10 +55,10 @@ const Modal: React.FC<ModalProps> = ({
               <>{item.title}</>
               <S.Achievement_Details>
                 <S.Bar>
-                  <S.Achievement_Bar />
+                  <S.Achievement_Bar width={`${item.width}%`} />
                 </S.Bar>
                 <S.Detail_Text>
-                  {item.achievement}
+                  {Math.floor(item.achievement)}
                   {item.sub_detail}
                 </S.Detail_Text>
               </S.Achievement_Details>

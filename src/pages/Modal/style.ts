@@ -62,12 +62,17 @@ export const Bar = styled.div`
   border-radius: 5px;
 `;
 
-export const Achievement_Bar = styled.div`
+interface AchievementBarProps {
+  width?: string;
+}
+
+export const Achievement_Bar = styled.div<AchievementBarProps>`
   position: absolute;
-  width: 30%;
+  width: ${(props) => props.width || "0%"};
   height: 100%;
-  background-color: #7280fb;
+  background-color:#7280fb; 
   border-radius: 5px;
+  max-width: 100%;
 `;
 
 export const Detail_Text = styled.div`
