@@ -66,20 +66,20 @@ const TypingPage = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
-    if (isDecreasing && startTime !== null) {
-      interval = setInterval(() => {
-        setCurrentSpeed((prevSpeed) => {
-          const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
-          const decreaseRate = 5;
-          const decreasedSpeed = Math.max(
-            prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
-            0,
-          );
-          return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
-        });
-      }, 100);
-    }
-    
+if (isDecreasing && startTime !== null) {
+  interval = setInterval(() => {
+    setCurrentSpeed((prevSpeed) => {
+      const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
+      const decreaseRate = 5;
+      const decreasedSpeed = Math.max(
+        prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
+        0,
+      );
+      return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
+    });
+  }, 100);
+}
+
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -152,7 +152,7 @@ const TypingPage = () => {
   };
 
   useEffect(() => {
-    if (sentenceCount === 5) {
+    if (sentenceCount === 3) {
       setShowModal(true);
     }
   }, [sentenceCount]);
