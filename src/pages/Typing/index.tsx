@@ -75,11 +75,11 @@ const TypingPage = () => {
             prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
             0,
           );
-          return Math.round(decreasedSpeed * 10) / 10; // 소수점 한 자리까지 반올림
+          return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
         });
       }, 100);
     }
-
+    
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -152,7 +152,7 @@ const TypingPage = () => {
   };
 
   useEffect(() => {
-    if (sentenceCount === 3) {
+    if (sentenceCount === 2) {
       setShowModal(true);
     }
   }, [sentenceCount]);

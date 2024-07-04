@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import "../../App.css";
+import "../../index.css";
 
 export const Typing_container = styled.div`
   width: 100vw;
