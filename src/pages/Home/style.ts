@@ -7,6 +7,7 @@ export const Home_Layout = styled.div`
   font-family: "TTLaundryGothicB";
   align-items: center;
   justify-content: center;
+  background-color:  #f6f7fa;
 `;
 
 export const Home_Container = styled.div`

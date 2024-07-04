@@ -103,6 +103,14 @@ const TypingPage = () => {
       return [];
     }
   };
+  const handleEnterPress = () => {
+    setSentenceCount((prevCount) => prevCount + 1);
+    getNextSentence();
+    setInputValue("");
+    setStartTime(null); // 다음 문장으로 넘어갈 때 startTime 초기화
+    setCurrentSpeed(0); // 다음 문장으로 넘어갈 때 currentSpeed 초기화
+  };
+  
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -245,11 +253,12 @@ const TypingPage = () => {
               <p>{sentence}</p>
             </s.Typing_display_sentence>
             <SentenceInput
-              sentence={sentence}
-              onInputChange={handleInputChange}
-              onEnterPress={getNextSentence}
-              inputValue={inputValue}
-            />
+  sentence={sentence}
+  onInputChange={handleInputChange}
+  onEnterPress={handleEnterPress}
+  inputValue={inputValue}
+/>
+
           </s.Typing_section_two>
           <s.Typing_section_three>
             <p>NEXT: {nextSentence}</p>
