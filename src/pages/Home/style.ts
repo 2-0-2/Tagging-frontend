@@ -3,14 +3,16 @@ import { NavLink } from "react-router-dom";
 
 export const Home_Layout = styled.div`
   display: flex;
-  padding: 217px 244px;
+  width: 100vw;
+  height: 100vh;
   font-family: "TTLaundryGothicB";
   align-items: center;
   justify-content: center;
   background-color:  #f6f7fa;
-`;
+  `;
 
 export const Home_Container = styled.div`
+
   display: flex;
 `;
 
