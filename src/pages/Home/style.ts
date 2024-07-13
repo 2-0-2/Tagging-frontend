@@ -52,7 +52,13 @@ export const Main_Title_Section = styled.div`
   display: flex;
   padding: 30px 0 60px 0;
   font-size: 200px;
-`;
+  `;
+
+export const Button_Section = styled.div`
+  display: flex;
+  gap: 40px;
+
+`
 
 export const Pirple_Title = styled.div`
   color: #7280fb;
@@ -60,13 +66,11 @@ export const Pirple_Title = styled.div`
 
 export const StyledNavLink = styled(NavLink)`
   display: flex;
-  flex-direction: column;
-  width: 40%;
-  padding: 25px 2px;
+  padding: 22px 30px;
   background-color: #7280fb;
   color: #fff;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   font-size: 30px;
   font-family: "TTLaundryGothicB";
   cursor: pointer;
