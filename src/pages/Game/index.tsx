@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 import Heart from "../../assets/Heart.svg";
@@ -21,6 +21,7 @@ const Game = ({ setGameScore }: GameProps) => {
   const [isGameEnded, setIsGameEnded] = useState<boolean>(false);
   const sectionHeight = 500;
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null); // input 요소에 대한 참조 생성
 
   // 새로운 단어 추가 (랜덤 단어 선택)
   useEffect(() => {
@@ -82,6 +83,13 @@ const Game = ({ setGameScore }: GameProps) => {
     return () => clearInterval(collisionInterval);
   }, [fallSpeed, gameStarted, isGameEnded, lives, sectionHeight]);
 
+  // 게임 시작 시 input에 포커스 설정
+  useEffect(() => {
+    if (gameStarted && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [gameStarted]);
+
   // 입력 처리
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -142,6 +150,7 @@ const Game = ({ setGameScore }: GameProps) => {
           <S.InputContainer>
             <img src={enterblue} alt="enter icon" />
             <S.Input
+              ref={inputRef} // input 요소에 참조 설정
               placeholder="위 단어를 입력하세요!"
               value={input}
               onChange={(e) => setInput(e.target.value)}

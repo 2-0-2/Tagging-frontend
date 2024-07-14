@@ -225,7 +225,7 @@ const Typing = () => {
           onClose={closeModal}
           avgSpeed={Math.round(avgSpeed)}
           highSpeed={Math.round(highSpeed)}
-          avgAccuracy={avgAccuracy}
+          avgAccuracy={Math.round(avgAccuracy)} // avgAccuracy가 올바르게 반올림되도록 수정
         />
       </s.Typing_layout>
     </s.Typing_container>
