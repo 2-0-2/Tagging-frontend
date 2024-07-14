@@ -4,6 +4,7 @@ export interface WordType {
   korean: string;
   color: string;
   position?: number;
+  leftPosition?: number;
 }
 
 export const typingData = [
