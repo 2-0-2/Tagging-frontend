@@ -17,7 +17,7 @@ const Game = ({ setGameScore }: GameProps) => {
   const [score, setScore] = useState<number>(0);
   const [lives, setLives] = useState<number>(3);
   const [wordIndex, setWordIndex] = useState<number>(0);
-  const [fallSpeed, setFallSpeed] = useState<number>(20);
+  const [fallSpeed, setFallSpeed] = useState<number>(2);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [isGameEnded, setIsGameEnded] = useState<boolean>(false);
   const sectionHeight = 500;
