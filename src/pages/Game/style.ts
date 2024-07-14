@@ -1,17 +1,15 @@
 import styled from "styled-components";
 
-export const LayoutContainer = styled.div `
+export const LayoutContainer = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  `
-
-
+`;
 
 export const GameLayout = styled.div`
-  width:70vw;
+  width: 70vw;
   height: 70vh;
   padding: 60px 96px 70px 70px;
   border: 5px solid #7280fb;
@@ -31,27 +29,23 @@ export const Score = styled.div``;
 export const Life = styled.div`
   display: flex;
   align-items: center;
-  gap : 2px;
+  gap: 2px;
   & > div {
     margin-right: 10px;
   }
-  `;
+`;
 
 export const Main = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 46px;
-  `;
-
-export const Heart = styled.img`
-
 `;
 
+export const Heart = styled.img``;
 
 export const Section = styled.section`
   width: 100%;
   height: 50vh;
-  background-color: aliceblue;
   position: relative;
   overflow: hidden;
 `;
