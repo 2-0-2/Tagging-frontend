@@ -12,13 +12,13 @@ interface ModalProps {
   avgAccuracy: number;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modal = ({
   isOpen,
   onClose,
   avgSpeed,
   highSpeed,
   avgAccuracy,
-}) => {
+}: ModalProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +38,27 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const avg_detail = [
-    { id: 1, title: "평균 타수(w/m)", achievement: avgSpeed, sub_detail: "타", width: (avgSpeed / highSpeed) * 100 },
-    { id: 2, title: "최고 타수(max)", achievement: highSpeed, sub_detail: "타", width: 100 },
-    { id: 3, title: "정확도(%)", achievement: avgAccuracy, sub_detail: "%", width: avgAccuracy },
+    {
+      id: 1,
+      title: "평균 타수(w/m)",
+      achievement: avgSpeed,
+      sub_detail: "타",
+      width: (avgSpeed / highSpeed) * 100, // 최고 타수 대비 비율 계산
+    },
+    {
+      id: 2,
+      title: "최고 타수(max)",
+      achievement: highSpeed,
+      sub_detail: "타",
+      width: 100, // 최고 타수는 100%로 표시
+    },
+    {
+      id: 3,
+      title: "정확도(%)",
+      achievement: avgAccuracy,
+      sub_detail: "%",
+      width: avgAccuracy, // 정확도는 퍼센트 그대로 표시
+    },
   ];
 
   return (
