@@ -1,45 +1,75 @@
-// Word.tsx
-
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
+
+export interface WordType {
+  id: string;
+  topPosition: number;
+  english: string;
+  korean: string;
+  color: string;
+  position?: number;
+  leftPosition?: number;
+}
+
+interface StyledWordProps {
+  topPosition: number;
+  leftPosition: number;
+  color: string;
+  fallSpeed: number;
+}
+
+const fallAnimation = keyframes`
+  from {
+    top: ${(props: StyledWordProps) => props.topPosition}px;
+  }
+  to {
+    top: 500px;
+  }
+`;
+
+const StyledWord = styled.div<StyledWordProps>`
+  position: absolute;
+  left: ${(props) => props.leftPosition}%;
+  top: ${(props) => props.topPosition}px;
+  width: auto;
+  background-color: ${(props) => props.color};
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-family: "GmarketSansMedium";
+  animation: ${fallAnimation} ${(props) => props.fallSpeed}s linear forwards;
+`;
 
 interface WordProps {
   word: string;
+  translation: string;
   color: string;
   topPosition: number;
-  onAnimationEnd: () => void;
+  leftPosition: number;
+  fallSpeed: number;
+  onAnimationEnd?: () => void;
 }
 
-// Define the keyframes animation
-const fallAnimation = keyframes<{ topPosition: number }>`
-  from {
-    transform: translateY(${(props) => props.topPosition}px);
-  }
-  to {
-    transform: translateY(500px);
-  }
-`;
+const Word = ({ word, translation, color, topPosition, leftPosition, fallSpeed, onAnimationEnd }: WordProps) => {
+  const wordRef = useRef<HTMLDivElement>(null);
 
-// Styled component using the animation
-const StyledWord = styled.div<{ topPosition: number; color: string }>`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: ${(props) => props.topPosition}px;
-  font-size: 24px;
-  font-family: "GmarketSansMedium";
-  color: ${(props) => props.color};
-  animation: ${fallAnimation} 5s linear forwards;
-`;
+  useEffect(() => {
+    const handleAnimationEnd = () => {
+      if (onAnimationEnd) onAnimationEnd();
+    };
+    const wordElement = wordRef.current;
+    if (wordElement) {
+      wordElement.addEventListener("animationend", handleAnimationEnd);
+      return () => {
+        wordElement.removeEventListener("animationend", handleAnimationEnd);
+      };
+    }
+  }, [onAnimationEnd]);
 
-const Word = ({ word, color, topPosition, onAnimationEnd }: WordProps) => {
   return (
-    <StyledWord
-      topPosition={topPosition}
-      color={color}
-      onAnimationEnd={onAnimationEnd}
-    >
-      {word}
+    <StyledWord ref={wordRef} topPosition={topPosition} leftPosition={leftPosition} color={color} fallSpeed={fallSpeed}>
+      {word} - {translation}
     </StyledWord>
   );
 };

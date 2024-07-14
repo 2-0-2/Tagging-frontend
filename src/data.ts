@@ -3,7 +3,8 @@ export interface WordType {
   english: string;
   korean: string;
   color: string;
-  position?: number; // Adding position as optional since it will be added dynamically
+  position?: number;
+  leftPosition?: number;
 }
 
 export const typingData = [
