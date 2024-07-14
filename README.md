@@ -30,8 +30,9 @@
 
 ## 💬 기능설명
 ### 1. 시작 페이지
-![Frame 4](https://github.com/2-0-2/Tagging-frontend/assets/128461588/d9e8ce1d-ed3c-4849-8a3b-153cfd68a2be)
-- `타자치러가기 >` 버튼을 누르면 타자연습 페이지로 이동합니다.
+<img width="912" alt="스크린샷 2024-07-14 오후 10 45 57" src="https://github.com/user-attachments/assets/f319cefe-9992-4a14-9bd5-b5052f338e54" /> <br />
+- `타자치러가기 ` 버튼을 누르면 타자연습 페이지로 이동합니다.
+
 <br />
 
 ### 2. 타자연습 페이지
@@ -45,7 +46,26 @@
 ### 3. 결과 모달창
 ![Frame 17](https://github.com/2-0-2/Tagging-frontend/assets/128461588/eb148ec8-6519-4e1d-9c7a-c2210c8cacf0)
 - 평균타수/최고타수/정확도 결과 보여줍니다.
-- `esc`키를 누르면 메인페이지로 이동합니다.
+- `esc`키를 누르면 시작 페이지로 이동합니다.
+<br />
+
+### 4. 게임 설명 모달
+<img width="912" alt="스크린샷 2024-07-14 오후 10 41 03" src="https://github.com/user-attachments/assets/89bcee7b-d53c-4dc1-aa50-1b98328181f1"> <br />
+- 게임에 대한 설명이 있습니다.
+- `게임시작하기` 버튼을 누르면 모달이 사라지고 게임이 시작됩니다.
+<br />
+
+### 5. 게임 페이지
+<img width="913" alt="스크린샷 2024-07-14 오후 10 42 52" src="https://github.com/user-attachments/assets/1e3e7c1d-e2b3-4a6a-a610-d668be5b1665"> <br />
+- 같은 색의 영어 단어와 뜻을 입력하면 10점이 추가됩니다.
+- 단어가 땅에 닿게되면 생명이 하나씩 줄어들게 됩니다.
+- 생명이 모두 없어지면 게임이 종료되고 게임 결과 모달창이 뜹니다.
+<br />
+
+### 6. 게임 결과 모달
+<img width="915" alt="스크린샷 2024-07-14 오후 10 44 55" src="https://github.com/user-attachments/assets/c5c4dc57-0264-4131-b4f2-834b959ad951"> <br />
+- 자신의 게임 점수를 알 수 있습니다.
+- `esc`키를 누르면 시작 페이지로 이동합니다
 
 <br />
 <br />
