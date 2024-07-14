@@ -3,13 +3,18 @@ import * as s from "./style";
 import logo from "../../assets/로고.svg";
 import returnicon from "../../assets/return.svg";
 import rightarrow from "../../assets/rightarrow.svg";
-import { fetchSentence } from "../../apis/sentenceAPI";
-import { englishSentence } from "../../apis/EsentenceAPI";
+import { K_sentences, E_sentences } from "../../data/sentence"; // 한국어 문장 데이터 가져오기
 import TypingStatsBox from "../../components/StatsDisplay";
 import SentenceInput from "../../components/SentenceInput";
 import Modal from "../Modal";
 
-const TypingPage = () => {
+interface TypingData {
+  currentSpeed: number;
+  highSpeed: number;
+  accuracy: number;
+}
+
+const Typing = () => {
   const [sentence, setSentence] = useState<string>("");
   const [nextSentence, setNextSentence] = useState<string>("");
   const [currentSpeed, setCurrentSpeed] = useState<number>(0);
@@ -17,152 +22,92 @@ const TypingPage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [startTime, setStartTime] = useState<number | null>(null);
   const [accuracy, setAccuracy] = useState<number>(0);
-  const [barWidth, setBarWidth] = useState<string>("0%");
   const [isEnglishMode, setIsEnglishMode] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [sentenceCount, setSentenceCount] = useState<number>(0);
-  const [isDecreasing, setIsDecreasing] = useState<boolean>(false);
+  const [accuracies, setAccuracies] = useState<number[]>([]);
+  const [averageSpeed, setAverageSpeed] = useState<number>(0); // 평균 타수 추가
 
   useEffect(() => {
-    if (isEnglishMode) {
-      getEnglishSentence();
-    } else {
-      getSentence();
-    }
+    setSentence(getRandomSentence());
+    setNextSentence(getRandomSentence());
   }, [isEnglishMode]);
 
-  useEffect(() => {
-    if (sentence) {
-      saveToLocalStorage("typingData", {
-        currentSpeed: Math.round(currentSpeed), // 반올림 처리
-        highSpeed: Math.round(highSpeed), // 반올림 처리
-        accuracy: Math.round(accuracy), // 반올림 처리
-      });
-    }
-  }, [sentence, currentSpeed, highSpeed, accuracy]);
-
-  const getSentence = async () => {
-    try {
-      const data = await fetchSentence();
-      setSentence(data.sentence || "");
-      const nextData = await fetchSentence();
-      setNextSentence(nextData.sentence || "");
-    } catch (error) {
-      console.error("문장 가져오기 실패:", error);
-    }
+  const getRandomSentence = (): string => {
+    const sentences = isEnglishMode ? E_sentences : K_sentences;
+    const randomIndex = Math.floor(Math.random() * sentences.length);
+    return sentences[randomIndex][1]; // 배열의 두 번째 엘리먼트인 문장 반환
   };
 
-  const getEnglishSentence = async () => {
-    try {
-      const data = await englishSentence();
-      setSentence(data.sentence || "");
-      const nextData = await englishSentence();
-      setNextSentence(nextData.sentence || "");
-    } catch (error) {
-      console.error("영어 문장 가져오기 실패:", error);
-    }
-  };
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-
-    if (isDecreasing && startTime !== null) {
-      interval = setInterval(() => {
-        setCurrentSpeed((prevSpeed) => {
-          const elapsedTimeInSeconds = (Date.now() - startTime!) / 1000;
-          const decreaseRate = 5;
-          const decreasedSpeed = Math.max(
-            prevSpeed - (decreaseRate * elapsedTimeInSeconds) / 10,
-            0,
-          );
-          return Math.floor(decreasedSpeed); // 소수점을 버린 후 반환
-        });
-      }, 100);
-    }
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isDecreasing, startTime]);
-
-  const saveToLocalStorage = (key: string, value: object) => {
-    const existingData = getFromLocalStorage(key);
+  const saveToLocalStorage = (key: string, value: TypingData) => {
+    const existingData = getFromLocalStorage(key) || [];
     const newData = [...existingData, value];
     localStorage.setItem(key, JSON.stringify(newData));
   };
 
-  const getFromLocalStorage = (key: string): any[] => {
+  const getFromLocalStorage = (key: string): TypingData[] => {
     const data = localStorage.getItem(key);
     try {
       const parsedData = JSON.parse(data || "[]");
       return Array.isArray(parsedData) ? parsedData : [];
     } catch (error) {
-      console.error("Failed to parse data from localStorage:", error);
+      console.error(
+        "localStorage에서 데이터를 파싱하는 데 실패했습니다:",
+        error,
+      );
       return [];
     }
   };
 
   const handleEnterPress = () => {
+    setAccuracies((prevAccuracies) => [...prevAccuracies, accuracy]); // 현재 문장의 정확도를 accuracies 배열에 추가
     setSentenceCount((prevCount) => prevCount + 1);
+    updateHighSpeed(currentSpeed); // 최고 타수 업데이트
     getNextSentence();
     setInputValue("");
     setStartTime(null);
     setCurrentSpeed(0);
   };
-  
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-  
-    if (!startTime) {
+
+    if (!startTime && value.trim() !== "") {
       setStartTime(Date.now());
-      setCurrentSpeed(0);
     }
-  
+
     if (value.trim() === "") {
-      setIsDecreasing(true);
       setAccuracy(0);
-      setBarWidth("0%");
+      setCurrentSpeed(0); // 입력값이 비었을 때 현재 타수를 0으로 설정
       return;
-    } else {
-      setIsDecreasing(false);
     }
-  
+
+    const minLength = Math.min(value.length, sentence.length); // 입력된 문자열과 문장의 최소 길이
     const correctChars = value
+      .slice(2) // 두 번째 글자부터 비교
       .split("")
-      .filter((char, idx) => char === sentence[idx]).length;
-    const accuracyValue = Math.floor((correctChars / value.length) * 100);
+      .filter((char, idx) => char === sentence[idx + 2]).length; // 문장의 두 번째 글자부터 비교
+    const accuracyValue = Math.floor((correctChars / (minLength - 2)) * 100); // 정확도 계산
     setAccuracy(accuracyValue);
-  
+
     const endTime = Date.now();
     const timeDiffInSeconds = (endTime - startTime!) / 1000;
-  
-    const charactersTyped = value.length;
+
+    const charactersTyped = value.length; // 전체 문자열 길이
     const wordsPerMinute =
       Math.round((charactersTyped / ((5 * timeDiffInSeconds) / 60)) * 10) / 10;
-    const roundedWpm = Math.min(Math.round(wordsPerMinute * 10), 1000); // 최대 타수 1000으로 제한
-  
+    const roundedWpm = Math.min(Math.round(wordsPerMinute * 10), 1000);
+
     setCurrentSpeed(roundedWpm);
-  
-    // 현재 타수가 최고 타수보다 크면 최고 타수를 업데이트 (최대 703으로 제한)
-    if (roundedWpm > highSpeed && roundedWpm <= 703) {
+
+    if (roundedWpm > highSpeed) {
       setHighSpeed(roundedWpm);
-    } else if (roundedWpm > 703) {
-      setHighSpeed(703);
     }
-  
-    // 입력값이 현재 문장의 길이를 넘어갈 경우 다음 문장으로 전환
+
     if (value.length >= sentence.length) {
-      setSentenceCount((prevCount) => prevCount + 1);
-      getNextSentence();
-      setInputValue("");
-      setStartTime(null); // 다음 문장으로 넘어갈 때 startTime 초기화
-      setCurrentSpeed(0); // 다음 문장으로 넘어갈 때 currentSpeed 초기화
+      handleEnterPress();
     }
   };
-  
 
   useEffect(() => {
     if (sentenceCount === 3) {
@@ -170,27 +115,23 @@ const TypingPage = () => {
     }
   }, [sentenceCount]);
 
-  const getNextSentence = async () => {
-    try {
-      if (isEnglishMode) {
-        const data = await englishSentence();
-        setSentence(nextSentence);
-        setNextSentence(data.sentence);
-      } else {
-        const data = await fetchSentence();
-        setSentence(nextSentence);
-        setNextSentence(data.sentence);
-      }
-    } catch (error) {
-      console.error("다음 문장 가져오기 실패:", error);
+  useEffect(() => {
+    if (showModal) {
+      const averageAccuracy =
+        accuracies.reduce((sum, acc) => sum + acc, 0) / accuracies.length;
+      setAccuracy(Math.round(averageAccuracy));
+      setAccuracies([]); // 정확도 초기화
+
+      // 평균 타수 다시 계산
+      const totalSpeed = accuracies.reduce((sum, acc) => sum + acc, 0);
+      setAverageSpeed(Math.round(totalSpeed / accuracies.length));
     }
-  };
+  }, [showModal, accuracies]);
 
-  const getBarWidth = (current: number, max: number) => {
-    return max === 0 ? "0%" : `${(current / max) * 100}%`;
+  const getNextSentence = () => {
+    setSentence(nextSentence);
+    setNextSentence(getRandomSentence());
   };
-
-  const accuracyBarWidth = `${accuracy}%`;
 
   const toggleLanguageMode = () => {
     setIsEnglishMode((prev) => !prev);
@@ -199,9 +140,12 @@ const TypingPage = () => {
   const closeModal = () => {
     setShowModal(false);
     setSentenceCount(0);
+    setAccuracies([]); // accuracies 배열 초기화
+    setAccuracy(0); // 정확도 초기화
+    setAverageSpeed(0); // 평균 타수 초기화
   };
 
-  const calculateAverage = () => {
+  const calculateAverage = (): { avgSpeed: number; avgAccuracy: number } => {
     const data = getFromLocalStorage("typingData");
     if (!data || data.length === 0) return { avgSpeed: 0, avgAccuracy: 0 };
 
@@ -217,6 +161,12 @@ const TypingPage = () => {
 
   const { avgSpeed, avgAccuracy } = calculateAverage();
 
+  const updateHighSpeed = (speed: number) => {
+    if (speed > highSpeed) {
+      setHighSpeed(speed);
+    }
+  };
+
   return (
     <s.Typing_container>
       <s.Typing_layout>
@@ -227,7 +177,7 @@ const TypingPage = () => {
               label="현재 타수 :"
               value={currentSpeed}
               color="#7280FB"
-              barWidth={getBarWidth(currentSpeed, highSpeed)}
+              barWidth={`${(currentSpeed / highSpeed) * 100}%`}
             />
             <TypingStatsBox
               label="최고 타수 :"
@@ -236,12 +186,18 @@ const TypingPage = () => {
               barWidth="100%"
             />
             <TypingStatsBox
+              label="평균 타수 :"
+              value={averageSpeed}
+              color="#0d6efd"
+              barWidth={`${(averageSpeed / highSpeed) * 100}%`}
+            />
+            <TypingStatsBox
               label="정확도 :"
               value={`${accuracy}%`}
-              barWidth={accuracyBarWidth}
+              barWidth={`${accuracy}%`}
             />
             <s.Typing_english_mode>
-              <p>{isEnglishMode ? "한국어" : "English"}</p>
+              <p>{isEnglishMode ? "English" : "한국어"}</p>
               <s.Typing_return src={returnicon} onClick={toggleLanguageMode} />
             </s.Typing_english_mode>
           </s.Typing_section_one>
@@ -254,12 +210,11 @@ const TypingPage = () => {
               <p>{sentence}</p>
             </s.Typing_display_sentence>
             <SentenceInput
-  sentence={sentence}
-  onInputChange={handleInputChange}
-  onEnterPress={handleEnterPress}
-  inputValue={inputValue}
-/>
-
+              sentence={sentence}
+              onInputChange={handleInputChange}
+              onEnterPress={handleEnterPress}
+              inputValue={inputValue}
+            />
           </s.Typing_section_two>
           <s.Typing_section_three>
             <p>NEXT: {nextSentence}</p>
@@ -268,13 +223,13 @@ const TypingPage = () => {
         <Modal
           isOpen={showModal}
           onClose={closeModal}
-          avgSpeed={Math.round(avgSpeed)} // 반올림 처리
-          highSpeed={Math.round(highSpeed)} // 반올림 처리
-          avgAccuracy={Math.round(avgAccuracy)} // 반올림 처리
+          avgSpeed={Math.round(avgSpeed)}
+          highSpeed={Math.round(highSpeed)}
+          avgAccuracy={avgAccuracy}
         />
       </s.Typing_layout>
     </s.Typing_container>
   );
 };
 
-export default TypingPage;
+export default Typing;
