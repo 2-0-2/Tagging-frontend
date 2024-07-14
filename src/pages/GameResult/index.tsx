@@ -1,20 +1,21 @@
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ESC from "../../assets/ESC";
 import * as S from "./style";
-import { useEffect } from "react";
 
-interface ModalProps {
+interface GameResultProps {
   isOpen: boolean;
   onClose: () => void;
+  score: number;
 }
 
-const GameResult = ({ isOpen, onClose }: ModalProps) => {
+const GameResult = ({ isOpen, onClose, score }: GameResultProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        navigate("/typing");
+        restartGame(); // ESC 키를 누를 때 게임 다시 시작
       }
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -22,17 +23,22 @@ const GameResult = ({ isOpen, onClose }: ModalProps) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navigate]);
+  }, []);
+
+  const restartGame = () => {
+    onClose(); // 모달 닫기
+    navigate("/"); // 게임 다시 시작 페이지로 이동
+  };
 
   if (!isOpen) return null;
   return (
-    <S.ModalOverlay onClick={onClose}>
+    <S.ModalOverlay>
       <S.Layout>
-        <S.Title>게임결과</S.Title>
-        <S.GameScore>000점</S.GameScore>
+        <S.Title>게임 결과</S.Title>
+        <S.GameScore>{score}점</S.GameScore>
         <S.Esc_Component>
-          <ESC />
-          <S.Esc_text_Component onClick={onClose}>
+          <ESC onClick={restartGame} />
+          <S.Esc_text_Component onClick={restartGame}>
             <div>정말 잘했어요 :)</div>
             <div>ESC 키를 눌러 다시 시작해요!....</div>
           </S.Esc_text_Component>
