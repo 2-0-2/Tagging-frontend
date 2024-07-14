@@ -1,6 +1,10 @@
 import * as S from "./style";
 
-const GameStartModal = () => {
+interface GameStartModalProps {
+  onStartGame: () => void;
+}
+
+const GameStartModal = ({ onStartGame }: GameStartModalProps) => {
   return (
     <S.ModalOverlay>
       <S.Layout>
@@ -12,7 +16,7 @@ const GameStartModal = () => {
           <S.SubTitle>2. 단어가 땅에 닿으면 생명 -1</S.SubTitle>
           <S.SubTitle>3. 생명이 모두 없어지면 게임 종료</S.SubTitle>
         </S.SubTitleContainer>
-        <S.GameStartBtn>게임시작하기</S.GameStartBtn>
+        <S.GameStartBtn onClick={onStartGame}>게임시작하기</S.GameStartBtn>{" "}
       </S.Layout>
     </S.ModalOverlay>
   );
