@@ -20,7 +20,7 @@ const fallAnimation = keyframes<{ topPosition: number }>`
   }
 `;
 
-// Styled component using the animation
+// Styled component using the animation 
 const StyledWord = styled.div<{ topPosition: number; color: string }>`
   position: absolute;
   left: 50%;

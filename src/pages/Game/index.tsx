@@ -20,7 +20,7 @@ const Game = () => {
     setWords(
       typingData
         .slice(wordIndex, wordIndex + 2)
-        .map((word, index) => ({ ...word, topPosition: index * 50 })),
+        .map((word, index) => ({ ...word, topPosition: index * 50 }))
     );
 
     const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const Game = () => {
   useEffect(() => {
     const handleCollision = () => {
       const updatedWords = words.filter(
-        (word) => (word.topPosition ?? 0) < sectionHeight,
+        (word) => (word.topPosition ?? 0) < sectionHeight
       );
       if (updatedWords.length < words.length) {
         setLives((prevLives) => prevLives - 1);
@@ -51,7 +51,7 @@ const Game = () => {
       if (matchingWord) {
         setScore((prevScore) => prevScore + 10);
         setWords((prevWords) =>
-          prevWords.filter((word) => word.english !== input),
+          prevWords.filter((word) => word.english !== input)
         );
         setInput("");
       }
@@ -59,42 +59,44 @@ const Game = () => {
   };
 
   return (
-    <S.Layout>
-      <S.GameLayout>
-        <S.Header>
-          <S.Score>점수 : {score}</S.Score>
-          <S.Life>
-            생명 :{" "}
-            {[...Array(lives)].map((_, index) => (
-              <S.Heart src={Heart} key={index} />
-            ))}
-          </S.Life>
-        </S.Header>
-        <S.Main>
-          <S.Section>
-            {words.map((word, index) => (
-              <Word
-                key={index}
-                word={word.english}
-                color={word.color}
-                topPosition={word.topPosition ?? 0}
-                onAnimationEnd={() => setLives((prevLives) => prevLives - 1)}
+    <S.LayoutContainer>
+        <S.GameLayout>
+          <S.Header>
+            <S.Score>점수 : {score}</S.Score>
+            <S.Life>
+              <div>
+              생명 :{" "}
+              </div>
+              {[...Array(lives)].map((_, index) => (
+                <S.Heart src={Heart} key={index} />
+              ))}
+            </S.Life>
+          </S.Header>
+          <S.Main>
+            <S.Section>
+              {words.map((word, index) => (
+                <Word
+                  key={index}
+                  word={word.english}
+                  color={word.color}
+                  topPosition={word.topPosition ?? 0}
+                  onAnimationEnd={() => setLives((prevLives) => prevLives - 1)}
+                />
+              ))}
+            </S.Section>
+            <S.Line />
+            <S.InputContainer>
+              <img src={enterblue} />
+              <S.Input
+                placeholder="위 단어를 입력하세요!"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
-            ))}
-          </S.Section>
-          <S.Line />
-          <S.InputContainer>
-            <img src={enterblue} />
-            <S.Input
-              placeholder="위 단어를 입력하세요!"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-          </S.InputContainer>
-        </S.Main>
-      </S.GameLayout>
-    </S.Layout>
+            </S.InputContainer>
+          </S.Main>
+        </S.GameLayout>
+    </S.LayoutContainer>
   );
 };
 

@@ -27,7 +27,7 @@ const Home = () => {
           <S.Button_Section>
 
           <S.StyledNavLink to="/typing">타자치러가기 {">"}</S.StyledNavLink>
-          <S.StyledNavLink to="/typing">타자게임하기 {">"}</S.StyledNavLink>
+          <S.StyledNavLink to="/game">타자게임하기 {">"}</S.StyledNavLink>
           </S.Button_Section>
         </S.Main_Title_Container>
         <S.Right_Logo_Container>
