@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./style";
 import Heart from "../../assets/Heart.svg";
-import { typingData } from "../../data";
+import { typingData } from "../../data/word";
 import Word, { WordType } from "../../components/Word";
 
 const Game = () => {
@@ -41,7 +41,7 @@ const Game = () => {
           topPosition: (word.topPosition ?? 0) + 1,
         }));
         const filteredWords = updatedWords.filter(
-          (word) => word.topPosition < sectionHeight
+          (word) => word.topPosition < sectionHeight,
         );
         // 생명 감소 처리
         if (filteredWords.length < updatedWords.length) {
@@ -62,21 +62,20 @@ const Game = () => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const matchingWord = words.find(
-        (word) => word.english === input || word.korean === input
+        (word) => word.english === input || word.korean === input,
       );
       if (matchingWord) {
         if (matchingWord.english === input && matchingWord.korean !== "") {
           setWords((prevWords) =>
-            prevWords.filter(
-              (word) => word.id !== matchingWord.id
-            )
+            prevWords.filter((word) => word.id !== matchingWord.id),
           );
           setScore((prevScore) => prevScore + 10); // 영어와 한글 모두 입력했을 때 점수 증가
-        } else if (matchingWord.korean === input && matchingWord.english !== "") {
+        } else if (
+          matchingWord.korean === input &&
+          matchingWord.english !== ""
+        ) {
           setWords((prevWords) =>
-            prevWords.filter(
-              (word) => word.id !== matchingWord.id
-            )
+            prevWords.filter((word) => word.id !== matchingWord.id),
           );
           setScore((prevScore) => prevScore + 10); // 영어와 한글 모두 입력했을 때 점수 증가
         }
