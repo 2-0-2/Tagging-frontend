@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 import Heart from "../../assets/Heart.svg";
 import { typingData } from "../../data/word";
 import Word, { WordType } from "../../components/Word";
+import GameStartModal from "../GameStartModal";
+import enterblue from "../../assets/enterblue.svg";
 
-const Game = () => {
+interface GameProps {
+  setGameScore: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Game = ({ setGameScore }: GameProps) => {
   const [words, setWords] = useState<WordType[]>([]);
   const [input, setInput] = useState<string>("");
   const [score, setScore] = useState<number>(0);
-  const [lives, setLives] = useState<number>(10);
+  const [lives, setLives] = useState<number>(3);
   const [wordIndex, setWordIndex] = useState<number>(0);
-  const [fallSpeed, setFallSpeed] = useState<number>(10); // 초기 속도(10초)
+  const [fallSpeed, setFallSpeed] = useState<number>(20);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [isGameEnded, setIsGameEnded] = useState<boolean>(false);
   const sectionHeight = 500;
+  const navigate = useNavigate();
 
   // 새로운 단어 추가
   useEffect(() => {
@@ -20,21 +30,37 @@ const Game = () => {
       const updatedWord: WordType = {
         id: `${newWord.english}-${Date.now()}`,
         topPosition: 0,
-        leftPosition: Math.random() * 80 + 10, // 랜덤한 좌표 설정
+        leftPosition: Math.random() * 80 + 10,
         english: newWord.english,
         korean: newWord.korean,
         color: newWord.color,
       };
       setWords((prevWords) => [...prevWords, updatedWord]);
       setWordIndex((prevIndex) => (prevIndex + 1) % typingData.length);
-    }, 3000); // 3초마다 새로운 단어 추가
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [wordIndex]);
 
+  // 게임 시작 처리
+  const startGame = () => {
+    setGameStarted(true);
+  };
+
+  // 생명 소진 감지 및 게임 결과 표시
+  useEffect(() => {
+    if (lives === 0) {
+      setIsGameEnded(true);
+      setGameScore(score); // Update game score
+      navigate("/game-result"); // Navigate to GameResult page
+    }
+  }, [lives, navigate, score, setGameScore]);
+
   // 단어의 낙하 처리 및 충돌 감지
   useEffect(() => {
     const handleCollision = () => {
+      if (!gameStarted || isGameEnded) return;
+
       setWords((prevWords) => {
         const updatedWords = prevWords.map((word) => ({
           ...word,
@@ -43,7 +69,6 @@ const Game = () => {
         const filteredWords = updatedWords.filter(
           (word) => word.topPosition < sectionHeight,
         );
-        // 생명 감소 처리
         if (filteredWords.length < updatedWords.length) {
           setLives((prevLives) => prevLives - 1);
         }
@@ -53,10 +78,10 @@ const Game = () => {
 
     const collisionInterval = setInterval(() => {
       handleCollision();
-    }, fallSpeed * 100); // 속도에 따라 단어 떨어지는 간격 조정
+    }, fallSpeed * 100);
 
     return () => clearInterval(collisionInterval);
-  }, [fallSpeed]);
+  }, [fallSpeed, gameStarted, isGameEnded, lives, sectionHeight]);
 
   // 입력 처리
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -69,7 +94,7 @@ const Game = () => {
           setWords((prevWords) =>
             prevWords.filter((word) => word.id !== matchingWord.id),
           );
-          setScore((prevScore) => prevScore + 10); // 영어와 한글 모두 입력했을 때 점수 증가
+          setScore((prevScore) => prevScore + 10);
         } else if (
           matchingWord.korean === input &&
           matchingWord.english !== ""
@@ -77,15 +102,16 @@ const Game = () => {
           setWords((prevWords) =>
             prevWords.filter((word) => word.id !== matchingWord.id),
           );
-          setScore((prevScore) => prevScore + 10); // 영어와 한글 모두 입력했을 때 점수 증가
+          setScore((prevScore) => prevScore + 10);
         }
       }
-      setInput(""); // Enter 후 입력 필드 비움
+      setInput("");
     }
   };
 
   return (
     <S.LayoutContainer>
+      {!gameStarted && <GameStartModal onStartGame={startGame} />}
       <S.GameLayout>
         <S.Header>
           <S.Score>점수 : {score}</S.Score>
@@ -101,8 +127,8 @@ const Game = () => {
             {words.map((word) => (
               <Word
                 key={word.id}
-                word={word.english} // 영어 단어 출력
-                translation={word.korean} // 한글 번역 출력
+                word={word.english}
+                translation={word.korean}
                 color={word.color}
                 topPosition={word.topPosition ?? 0}
                 leftPosition={word.leftPosition ?? 50}
@@ -115,6 +141,7 @@ const Game = () => {
           </S.Section>
           <S.Line />
           <S.InputContainer>
+            <img src={enterblue} alt="enter icon" />
             <S.Input
               placeholder="위 단어를 입력하세요!"
               value={input}
