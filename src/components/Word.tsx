@@ -1,9 +1,8 @@
-// Word 컴포넌트
 import React, { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 
 export interface WordType {
-  id: string; // id 속성 추가
+  id: string;
   topPosition: number;
   english: string;
   korean: string;
@@ -70,7 +69,7 @@ const Word = ({ word, translation, color, topPosition, leftPosition, fallSpeed, 
 
   return (
     <StyledWord ref={wordRef} topPosition={topPosition} leftPosition={leftPosition} color={color} fallSpeed={fallSpeed}>
-      {word}
+      {word} - {translation}
     </StyledWord>
   );
 };
