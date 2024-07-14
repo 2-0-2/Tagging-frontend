@@ -16,17 +16,17 @@ const Game = ({ setGameScore }: GameProps) => {
   const [input, setInput] = useState<string>("");
   const [score, setScore] = useState<number>(0);
   const [lives, setLives] = useState<number>(3);
-  const [wordIndex, setWordIndex] = useState<number>(0);
   const [fallSpeed, setFallSpeed] = useState<number>(2);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [isGameEnded, setIsGameEnded] = useState<boolean>(false);
   const sectionHeight = 500;
   const navigate = useNavigate();
 
-  // 새로운 단어 추가
+  // 새로운 단어 추가 (랜덤 단어 선택)
   useEffect(() => {
     const interval = setInterval(() => {
-      const newWord = typingData[wordIndex];
+      const randomIndex = Math.floor(Math.random() * typingData.length);
+      const newWord = typingData[randomIndex];
       const updatedWord: WordType = {
         id: `${newWord.english}-${Date.now()}`,
         topPosition: 0,
@@ -36,11 +36,10 @@ const Game = ({ setGameScore }: GameProps) => {
         color: newWord.color,
       };
       setWords((prevWords) => [...prevWords, updatedWord]);
-      setWordIndex((prevIndex) => (prevIndex + 1) % typingData.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [wordIndex]);
+  }, []);
 
   // 게임 시작 처리
   const startGame = () => {
