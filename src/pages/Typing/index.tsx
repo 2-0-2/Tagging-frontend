@@ -25,8 +25,9 @@ const Typing = () => {
   const [isEnglishMode, setIsEnglishMode] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [sentenceCount, setSentenceCount] = useState<number>(0);
+  const [speeds, setSpeeds] = useState<number[]>([]);
   const [accuracies, setAccuracies] = useState<number[]>([]);
-  const [averageSpeed, setAverageSpeed] = useState<number>(0); // 평균 타수 추가
+  const [averageSpeed, setAverageSpeed] = useState<number>(0);
 
   useEffect(() => {
     setSentence(getRandomSentence());
@@ -36,7 +37,7 @@ const Typing = () => {
   const getRandomSentence = (): string => {
     const sentences = isEnglishMode ? E_sentences : K_sentences;
     const randomIndex = Math.floor(Math.random() * sentences.length);
-    return sentences[randomIndex][1]; // 배열의 두 번째 엘리먼트인 문장 반환
+    return sentences[randomIndex][1];
   };
 
   const saveToLocalStorage = (key: string, value: TypingData) => {
@@ -61,6 +62,7 @@ const Typing = () => {
 
   const handleEnterPress = () => {
     setAccuracies((prevAccuracies) => [...prevAccuracies, accuracy]); // 현재 문장의 정확도를 accuracies 배열에 추가
+    setSpeeds((prevSpeeds) => [...prevSpeeds, currentSpeed]); // 현재 문장의 타수를 speeds 배열에 추가
     setSentenceCount((prevCount) => prevCount + 1);
     updateHighSpeed(currentSpeed); // 최고 타수 업데이트
     getNextSentence();
@@ -84,7 +86,7 @@ const Typing = () => {
 
     const minLength = Math.min(value.length, sentence.length); // 입력된 문자열과 문장의 최소 길이
     const correctChars = value
-      .slice(2) // 두 번째 글자부터 비교
+      .slice(2) // 두 번째 글자부터 비교 (첫번째 글자부터 계산하면 타수가 너무 높게 나오기 때문)
       .split("")
       .filter((char, idx) => char === sentence[idx + 2]).length; // 문장의 두 번째 글자부터 비교
     const accuracyValue = Math.floor((correctChars / (minLength - 2)) * 100); // 정확도 계산
@@ -93,7 +95,7 @@ const Typing = () => {
     const endTime = Date.now();
     const timeDiffInSeconds = (endTime - startTime!) / 1000;
 
-    const charactersTyped = value.length; // 전체 문자열 길이
+    const charactersTyped = value.length;
     const wordsPerMinute =
       Math.round((charactersTyped / ((5 * timeDiffInSeconds) / 60)) * 10) / 10;
     const roundedWpm = Math.min(Math.round(wordsPerMinute * 10), 1000);
@@ -111,22 +113,20 @@ const Typing = () => {
 
   useEffect(() => {
     if (sentenceCount === 3) {
-      setShowModal(true);
-    }
-  }, [sentenceCount]);
-
-  useEffect(() => {
-    if (showModal) {
+      // 평균 정확도 계산
       const averageAccuracy =
         accuracies.reduce((sum, acc) => sum + acc, 0) / accuracies.length;
       setAccuracy(Math.round(averageAccuracy));
-      setAccuracies([]); // 정확도 초기화
 
-      // 평균 타수 다시 계산
-      const totalSpeed = accuracies.reduce((sum, acc) => sum + acc, 0);
-      setAverageSpeed(Math.round(totalSpeed / accuracies.length));
+      // 평균 타수 계산
+      const averageSpeed =
+        speeds.reduce((sum, speed) => sum + speed, 0) / speeds.length;
+      setAverageSpeed(Math.round(averageSpeed)); // 평균 타수 설정
+
+      // 모달을 열기 전에 상태 업데이트
+      setShowModal(true);
     }
-  }, [showModal, accuracies]);
+  }, [sentenceCount]);
 
   const getNextSentence = () => {
     setSentence(nextSentence);
@@ -140,9 +140,10 @@ const Typing = () => {
   const closeModal = () => {
     setShowModal(false);
     setSentenceCount(0);
-    setAccuracies([]); // accuracies 배열 초기화
-    setAccuracy(0); // 정확도 초기화
-    setAverageSpeed(0); // 평균 타수 초기화
+    setAccuracies([]);
+    setSpeeds([]);
+    setAccuracy(0);
+    setAverageSpeed(0);
   };
 
   const calculateAverage = (): { avgSpeed: number; avgAccuracy: number } => {
@@ -223,9 +224,9 @@ const Typing = () => {
         <Modal
           isOpen={showModal}
           onClose={closeModal}
-          avgSpeed={Math.round(avgSpeed)}
-          highSpeed={Math.round(highSpeed)}
-          avgAccuracy={Math.round(avgAccuracy)} // avgAccuracy가 올바르게 반올림되도록 수정
+          avgSpeed={averageSpeed}
+          highSpeed={highSpeed}
+          avgAccuracy={accuracy}
         />
       </s.Typing_layout>
     </s.Typing_container>
