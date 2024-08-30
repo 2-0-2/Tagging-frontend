@@ -27,7 +27,7 @@ const GameResult = ({ isOpen, onClose, score }: GameResultProps) => {
 
   const restartGame = () => {
     onClose();
-    navigate("/");
+    navigate("/game");
   };
 
   if (!isOpen) return null;
