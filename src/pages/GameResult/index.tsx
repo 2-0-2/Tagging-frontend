@@ -15,7 +15,7 @@ const GameResult = ({ isOpen, onClose, score }: GameResultProps) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        restartGame(); // ESC 키를 누를 때 게임 다시 시작
+        restartGame();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -26,8 +26,8 @@ const GameResult = ({ isOpen, onClose, score }: GameResultProps) => {
   }, []);
 
   const restartGame = () => {
-    onClose(); // 모달 닫기
-    navigate("/"); // 게임 다시 시작 페이지로 이동
+    onClose();
+    navigate("/");
   };
 
   if (!isOpen) return null;
