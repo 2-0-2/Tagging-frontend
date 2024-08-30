@@ -23,6 +23,18 @@ const Game = ({ setGameScore }: GameProps) => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null); // input 요소에 대한 참조 생성
 
+  // 점수에 따른 낙하 속도 조절
+  useEffect(() => {
+    const speedIncreaseInterval = 10000; // 속도 증가 간격 (ms)
+    const speedIncreaseAmount = 0.1; // 속도 증가량
+
+    const speedInterval = setInterval(() => {
+      setFallSpeed((prevFallSpeed) => prevFallSpeed + speedIncreaseAmount);
+    }, speedIncreaseInterval);
+
+    return () => clearInterval(speedInterval);
+  }, [score]);
+
   // 새로운 단어 추가 (랜덤 단어 선택)
   useEffect(() => {
     const interval = setInterval(() => {
