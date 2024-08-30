@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Tagging-frontend/static/css/main.f8ffaca3.css",
-    "main.js": "/Tagging-frontend/static/js/main.2abf278c.js",
+    "main.js": "/Tagging-frontend/static/js/main.f84dcbe1.js",
     "static/media/로고.svg": "/Tagging-frontend/static/media/로고.5d8f36afc69ecf14b8bc264b4b722a3c.svg",
     "static/media/enter.svg": "/Tagging-frontend/static/media/enter.3d7ce66a577d91a885c5ae6403cdf33b.svg",
     "static/media/enterblue.svg": "/Tagging-frontend/static/media/enterblue.bc124d643d780a65d605b421d0fe79d5.svg",
@@ -10,10 +10,10 @@
     "static/media/Heart.svg": "/Tagging-frontend/static/media/Heart.42ebaf71cdb0ae2274488c3a09126fa9.svg",
     "static/media/return.svg": "/Tagging-frontend/static/media/return.dfc1ad2fa1986267cd64a916078153c8.svg",
     "main.f8ffaca3.css.map": "/Tagging-frontend/static/css/main.f8ffaca3.css.map",
-    "main.2abf278c.js.map": "/Tagging-frontend/static/js/main.2abf278c.js.map"
+    "main.f84dcbe1.js.map": "/Tagging-frontend/static/js/main.f84dcbe1.js.map"
   },
   "entrypoints": [
     "static/css/main.f8ffaca3.css",
-    "static/js/main.2abf278c.js"
+    "static/js/main.f84dcbe1.js"
   ]
 }
